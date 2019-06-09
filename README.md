@@ -1,2 +1,0 @@
-# srs
-simple redirect server
