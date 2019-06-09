@@ -10,6 +10,7 @@ OPTIONAL
 sqlite3 (alternative to mysql/mariadb)
 
 mkdir srs
+
 clone the repo
 
 git clone https://github.com/slimphp/Slim-Skeleton.git sysAPI
