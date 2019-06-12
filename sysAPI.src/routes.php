@@ -117,7 +117,7 @@ return function (App $app) {
     	$input = $request->getParsedBody();
     	if (empty($input['mac'])) {
         	$result ['reason'] = "NULL MAC address";
-            return $this->response->withJson($input,400);      	
+            return $this->response->withJson($result,400);      	
     	}
     	if (empty($input['redirecturl'])) {
         	$result ['reason'] = "NULL redirecturl";
@@ -148,7 +148,6 @@ return function (App $app) {
     	try {
         	$sth = $this->db->prepare("UPDATE endpoint SET redirecturl=?,customer=?, z_updater=? WHERE mac=?;");
         	$sth->execute(array($input['redirecturl'],$input['customer'],getRemoteIP(),$input['mac']));
-        	$endpoint = $sth->fetchAll();
         } catch (exception $e) {
         	$result ['reason'] = $e->getMessage();
             return $this->response->withJson($result,500);        
