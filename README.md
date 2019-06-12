@@ -1,9 +1,7 @@
 # srs
 simple redirect server
 
-REQUIRES 
-lamp<br/>
-composer zip php-curl php-xml php-mbstring php-zipopenssh openssh-server
+REQUIRES lamp composer zip php-curl php-xml php-mbstring php-zipopenssh openssh-server
 
 SLIM PHP framework
 
