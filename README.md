@@ -2,8 +2,9 @@
 simple redirect server
 
 REQUIRES 
-lamp
+lamp<br/>
 composer zip php-curl php-xml php-mbstring php-zipopenssh openssh-server
+
 SLIM PHP framework
 
 OPTIONAL
@@ -13,10 +14,10 @@ mkdir srs
 
 clone the repo
 
-git clone https://github.com/slimphp/Slim-Skeleton.git sysAPI
-cd sysAPI
+git clone https://github.com/slimphp/Slim-Skeleton.git sysAPI<br/>
+cd sysAPI<br/>
 composer install
 
-git clone https://github.com/slimphp/Slim-Skeleton.git sysRedir
-cd sysRedir
-composer install
+git clone https://github.com/slimphp/Slim-Skeleton.git sysRedir <br/>
+cd sysRedir<br/>
+composer install<br/>
