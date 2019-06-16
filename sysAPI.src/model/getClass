@@ -19,7 +19,7 @@ class getController  {
             $result ['reason'] = $e->getMessage();
             return $this->response->withJson($result,500);        
         }            
-        return $this->response->withJson($endpoint);
+        return $this->response->withJson($result);
     }
 
     public function getKeys($table)
@@ -34,10 +34,10 @@ class getController  {
         }
         $rc = NULL;
         if (empty($result)) {
-            $rc = 404;
             $result ['reason'] = "Result Set Empty";
+            return $this->response->withJson($result,404);
         }
-        return $this->response->withJson($result,$rc);
+        return $this->response->withJson($result);
     }    
 
     public function getId($table,$id)
@@ -51,10 +51,10 @@ class getController  {
             return $this->response->withJson($result,500);                  
         }        
         if (empty($result)) {
-            $rc = 404;
             $result ['reason'] = "Not Found";
+            return $this->response->withJson($result,404);
         }
-        return $this->response->withJson($result,$rc);
+        return $this->response->withJson($result);
     }
 
     public function getColumn($table,$id,$column)
@@ -68,9 +68,9 @@ class getController  {
             return $this->response->withJson($result,500);                  
         }
         if (empty($result)) {
-            $rc = 404;
             $result ['reason'] = "Not Found";
+            return $this->response->withJson($result,404);
         }
-        return $this->response->withJson($result,$rc);
+        return $this->response->withJson($result);
     } 
 }
