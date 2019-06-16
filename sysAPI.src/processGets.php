@@ -7,18 +7,18 @@ require_once __DIR__ . "/model/getClass";
 
         $app->get('/endpoint', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
-            return $this->response->withJson($getter->getAll('endpoint'));
-        }
+            return ($getter->getAll('endpoint');
+        });
 
         $app->get('/endpoint/{pkey}', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
             return $getter->getId('endpoint',$args['pkey']);
-        } 
+        }); 
 
         $app->get('/endpoint/{pkey}/{column}', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
-            return $getter->getId('endpoint',$args['pkey'],$args['column']);
-        }   
+            return $getter->getColumn('endpoint',$args['pkey'],$args['column']);
+        });   
 
 /*
         $app->get('/endpoint', function ($request, $response, $args) {
