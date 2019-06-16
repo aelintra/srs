@@ -18,8 +18,12 @@ return function (App $app) {
     	}
 		return($ip);
 	}
+
+    	$container = $app->getContainer();
 	
-    $container = $app->getContainer();
+	require __DIR__ . "/processGets.php";
+
+/*	
 	$app->get('/endpoint', function ($request, $response, $args) {
 		try {	
         	$sth = $this->db->prepare("SELECT * FROM endpoint order by mac");
@@ -63,7 +67,7 @@ return function (App $app) {
         }            
         return $this->response->withJson($endpoint);
 	});
-
+ */
 /*
  * POST (INSERT)
  * Requires mac, redirecturl and customer

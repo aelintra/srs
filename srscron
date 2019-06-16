@@ -1,0 +1,2 @@
+#refresh MAC db weekly
+0 0 * * 0 root sh /home/redirect/srs/scripts/getmaclist.sh
