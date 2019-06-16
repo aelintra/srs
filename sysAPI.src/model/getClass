@@ -1,0 +1,76 @@
+<?php
+
+
+class getController  {
+
+    public function __construct($db,$response)
+    {
+       $this->db = $db;
+       $this->response = $response;
+    }
+
+    public function getAll($table) 
+    {        
+        try { 
+            $sth = $this->db->prepare("SELECT * FROM " . $table . " ORDER BY pkey");
+            $sth->execute();
+            $result = $sth->fetchAll();
+        } catch (exception $e) {
+            $result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);        
+        }            
+        return $this->response->withJson($endpoint);
+    }
+
+    public function getKeys($table)
+    {
+        try {
+            $sth = $this->db->prepare("SELECT pkey FROM " . $table . " ORDER BY pkey");
+            $sth->execute();
+            $result = $sth->fetchAll();
+        } catch {
+            $result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);                  
+        }
+        $rc = NULL;
+        if (empty($result)) {
+            $rc = 404;
+            $result ['reason'] = "Result Set Empty";
+        }
+        return $this->response->withJson($result,$rc);
+    }    
+
+    public function getId($table,$id)
+    {
+        try {
+            $sth = $this->db->prepare("SELECT * FROM " . $table . " where pkey=?");
+            $sth->execute(array($id));
+            $result = $sth->fetchAll();
+        } catch {
+            $result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);                  
+        }        
+        if (empty($result)) {
+            $rc = 404;
+            $result ['reason'] = "Not Found";
+        }
+        return $this->response->withJson($result,$rc);
+    }
+
+    public function getColumn($table,$id,$column)
+    {
+        try {
+            $sth = $this->db->prepare("SELECT $column FROM " . $table . " where pkey=?");
+            $sth->execute(array($id));
+            $result = $sth->fetchAll();
+        } catch {
+            $result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);                  
+        }
+        if (empty($result)) {
+            $rc = 404;
+            $result ['reason'] = "Not Found";
+        }
+        return $this->response->withJson($result,$rc);
+    } 
+}
