@@ -20,49 +20,34 @@ require_once __DIR__ . "/model/getClass";
             return $getter->getColumn('endpoint',$args['pkey'],$args['column']);
         });   
 
-/*
-        $app->get('/endpoint', function ($request, $response, $args) {
-            try {   
-                $sth = $this->db->prepare("SELECT * FROM endpoint order by mac");
-                $sth->execute();
-                $endpoint = $sth->fetchAll();
-            } catch (exception $e) {
-                $result ['reason'] = $e->getMessage();
-                return $this->response->withJson($result,500);        
-            }            
-            return $this->response->withJson($endpoint);
-        });
-        
-        $app->get('/endpoint/{mac}', function ($request, $response, $args) {
-            try {
-                $sth = $this->db->prepare("SELECT * FROM endpoint where mac=?");
-                $sth->execute(array($args['mac']));
-                $endpoint = $sth->fetchAll();
-            } catch (exception $e) {
-                $result ['reason'] = $e->getMessage();
-                return $this->response->withJson($result,500);        
-            } 
-            if (empty($endpoint)) {
-                $result ['reason'] = "MAC " . $args['mac'] . " Not Found";
-                return $this->response->withJson($result,404);   
-            }              
-            return $this->response->withJson($endpoint);
+
+        $app->get('/template', function ($request, $response, $args) {
+            $getter = new getController($this->db,$this->response);
+            return $getter->getAll('template');
         });
 
-        $app->get('/endpoint/{mac}/{column}', function ($request, $response, $args) {
-            try {
-                $sth = $this->db->prepare("SELECT " . $args['column'] . " FROM endpoint where mac=?");
-                $sth->execute(array($args['mac']));
-                $endpoint = $sth->fetchAll();
-            } catch (exception $e) {
-                $result ['reason'] = $e->getMessage();
-                return $this->response->withJson($result,500);        
-            }
-            if (empty($endpoint)) {
-                $result ['reason'] = "MAC " . $args['mac'] . "/" . $args['column'] . " Not Found";
-                return $this->response->withJson($result,404);   
-            }            
-            return $this->response->withJson($endpoint);
-        });
-*/
+        $app->get('/template/{pkey}', function ($request, $response, $args) {
+            $getter = new getController($this->db,$this->response);
+            return $getter->getId('template',$args['pkey']);
+        }); 
 
+        $app->get('/template/{pkey}/{column}', function ($request, $response, $args) {
+            $getter = new getController($this->db,$this->response);
+            return $getter->getColumn('template',$args['pkey'],$args['column']);
+        });   
+
+
+        $app->get('/customer', function ($request, $response, $args) {
+            $getter = new getController($this->db,$this->response);
+            return $getter->getAll('customer');
+        });
+
+        $app->get('/customer/{pkey}', function ($request, $response, $args) {
+            $getter = new getController($this->db,$this->response);
+            return $getter->getId('customer',$args['pkey']);
+        }); 
+
+        $app->get('/customer/{pkey}/{column}', function ($request, $response, $args) {
+            $getter = new getController($this->db,$this->response);
+            return $getter->getColumn('customer',$args['pkey'],$args['column']);
+        });           
