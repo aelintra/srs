@@ -54,7 +54,7 @@ class postController  {
     	$vals = null;
     	$prep = null;
     	foreach ($this->input as $key => $val) {
-    		if (empty($this->$columnName[$table][$key])) {
+    		if (empty($this->columnName[$table][$key])) {
     			$result ['reason'] = "Invalid column " . $table . ' => ' . $key;
             	return $this->response->withJson($result,403);
     		}
