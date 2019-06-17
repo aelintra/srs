@@ -51,7 +51,7 @@ class postController  {
     	}
 */
     	$cols = null;
-    	$vals = null;
+    	$vals = array();
     	$prep = null;
     	foreach ($this->input as $key => $val) {
     		if (empty($this->columnName[$table][$key])) {
@@ -60,7 +60,7 @@ class postController  {
     		}
     		else {
     			$cols .= $key . ',';
-    			$vals .= $val . ',';
+    			$vals[] = $val;
     			$prep .= '?,';
     		}
     	}
@@ -69,11 +69,9 @@ class postController  {
             	return $this->response->withJson($result,403);    		
     	}
     	rtrim($cols,',');
-    	rtrim($vals,',');
     	rtrim($prep,',');
-
    		try {
-        	$sth = $this->db->prepare("INSERT INTO $table($cols) values ($prep)");
+        	$sth = $this->db->prepare("INSERT INTO $table ($cols) values ($prep)");
         	$sth->execute($vals);
 //        	$sth->execute(array($input['mac'],$input['redirecturl'],$input['customer'],getRemoteIP()) );
         } catch (exception $e) {
