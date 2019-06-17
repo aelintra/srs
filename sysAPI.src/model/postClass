@@ -50,7 +50,8 @@ class postController  {
         	$result ['reason'] = "EMPTY PRIMARY KEY";
             return $this->response->withJson($result,400);      	
     	}
-    	$input['z_updater'] = $this->helper->getRemoteIP();
+    	$helper = new modelHelper();
+    	$this->input['z_updater'] = $this->helper->getRemoteIP();
     	$cols = null;
     	$prep = null;
     	$vals = array();
