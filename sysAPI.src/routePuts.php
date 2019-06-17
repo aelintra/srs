@@ -16,17 +16,17 @@ require_once __DIR__ . "/model/helperClass";
             	return $this->response->withJson($result,400);                	
             }    		    		    		    		
             $putter = new putController($this->db,$input,$this->response);
-            return $putter->post('endpoint');
+            return $putter->put('endpoint');
         });
 
         $app->put('/template', function ($request, $response, $args) {
         	$input = $request->getParsedBody();    		
             $putter = new putController($this->db,$input,$this->response);
-            return $putter->post('template');
+            return $putter->put('template');
         });
 
         $app->put('/customer', function ($request, $response, $args) {
         	$input = $request->getParsedBody();	    		
             $putter = new putController($this->db,$input,$this->response);
-            return $putter->post('customer');
+            return $putter->put('customer');
         });
