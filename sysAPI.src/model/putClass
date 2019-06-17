@@ -75,9 +75,8 @@ class putController  {
     	$cols = rtrim($cols,',');
 
    		try {
-        	$sth = $this->db->prepare("INSERT INTO $table ($cols) values ($prep) WHERE pkey=?");
+        	$sth = $this->db->prepare("UPDATE $table SET ($cols) WHERE pkey=?");
         	$sth->execute($vals);
-//        	$sth->execute(array($input['mac'],$input['redirecturl'],$input['customer'],getRemoteIP()) );
         } catch (exception $e) {
         	$result ['reason'] = $e->getMessage();
             return $this->response->withJson($result,500);        
