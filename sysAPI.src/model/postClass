@@ -3,8 +3,6 @@
 
 class postController  {
 
-    public function __construct($db,$input,$response)
-    {
     	protected $columnName = array(
 			'customer' => array (
 				'pkey' => true,
@@ -31,7 +29,10 @@ class postController  {
 				'provision' => true,
 				'technology' => true
 			)
-		); 
+		); 	
+
+    public function __construct($db,$input,$response)
+    {
        	
        $this->db = $db;
        $this->input = $input;
