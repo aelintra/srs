@@ -5,6 +5,9 @@ require_once __DIR__ . "/model/getClass";
     GET processors
  */ 
 
+// 
+// endpoint
+// 
         $app->get('/endpoint', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
             return $getter->getAll('endpoint');
@@ -17,10 +20,12 @@ require_once __DIR__ . "/model/getClass";
 
         $app->get('/endpoint/{pkey}/{column}', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
-            return $getter->getColumn('endpoint',$args['pkey'],$args['column']);
+            return $getter->getRowColumn('endpoint',$args['pkey'],$args['column']);
         });   
 
-
+// 
+// template
+// 
         $app->get('/template', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
             return $getter->getAll('template');
@@ -33,10 +38,12 @@ require_once __DIR__ . "/model/getClass";
 
         $app->get('/template/{pkey}/{column}', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
-            return $getter->getColumn('template',$args['pkey'],$args['column']);
+            return $getter->getRowColumn('template',$args['pkey'],$args['column']);
         });   
 
-
+// 
+// customer
+// 
         $app->get('/customer', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
             return $getter->getAll('customer');
@@ -49,5 +56,5 @@ require_once __DIR__ . "/model/getClass";
 
         $app->get('/customer/{pkey}/{column}', function ($request, $response, $args) {
             $getter = new getController($this->db,$this->response);
-            return $getter->getColumn('customer',$args['pkey'],$args['column']);
+            return $getter->getRowColumn('customer',$args['pkey'],$args['column']);
         });           

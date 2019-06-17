@@ -1,0 +1,88 @@
+<?php
+
+
+class postController  {
+
+    public function __construct($db,$input,$response)
+    {
+
+       	
+       $this->db = $db;
+       $this->input = $input
+       $this->response = $response;
+    }
+
+    public function post($table) 
+    { 
+
+    	protected $columnNames = array(
+			'customer' => array (
+				'pkey' => true,
+				'dflt_user_pass' => true,
+				'dflt_admin_pass' => true,
+				'dflt_redirect' => true,
+				'dflt_sip_reg' => true,
+				'parent_pkey' => true
+			),
+			'endpoint' => array (
+				'pkey' => true,
+				'customer_pkey' => true,
+				'displayName' => true,
+				'redirecturl' => true,
+				'mode' => true,
+				'sip_account' => true,
+				'sip_pass' => true,
+				'sip_reg' => true,
+				'transport' => true
+			),
+			'template' => array (
+				'pkey' => true,
+				'parent_pkey' => true,
+				'provision' => true,
+				'technology' => true
+			)
+		); 
+/*
+		if (empty($input['pkey'])) {
+        	$result ['reason'] = "NULL PRIMARY KEY";
+            return $this->response->withJson($result,400);      	
+    	}
+*/
+    	$cols = null;
+    	$vals = null;
+    	$prep = null;
+    	foreach ($input as $key => $val) {
+    		if (empty($table,$key)) {
+    			$result ['reason'] = "Invalid column " . $table . ' => ' . $key;
+            	return $this->response->withJson($result,403);
+    		}
+    		else {
+    			$cols .= $key . ',';
+    			$vals .= $val . ',';
+    			$prep .= '?,';
+    		}
+    	}
+    	if (empty($cols)) {
+    			$result ['reason'] = "Empty column list";
+            	return $this->response->withJson($result,403);    		
+    	}
+    	rtrim($cols,',');
+    	rtrim($vals,',');
+    	rtrim($prep,',');
+
+   		try {
+        	$sth = $this->db->prepare("INSERT INTO $table($cols) values ($prep)");
+        	$sth->execute($vals);
+//        	$sth->execute(array($input['mac'],$input['redirecturl'],$input['customer'],getRemoteIP()) );
+        } catch (exception $e) {
+        	if($e->errorInfo[1] === 1062) {
+        		$result ['reason'] = "Duplicate KEY " . $this->input['pkey'];
+        		return $this->response->withJson($result,403);
+        	}
+        	$result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);        
+        }        
+    	return $this->response->withJson($input,201);
+    }
+
+}

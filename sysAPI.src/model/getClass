@@ -8,7 +8,11 @@ class getController  {
        $this->db = $db;
        $this->response = $response;
     }
-
+/**
+ * getId fetch all for a table
+ * @param  var $table  table name
+ * @return json        return result as json string
+ */
     public function getAll($table) 
     {        
         try { 
@@ -21,7 +25,11 @@ class getController  {
         }            
         return $this->response->withJson($result);
     }
-
+/**
+ * getId fetch all keys for a table
+ * @param  var $table  table name
+ * @return json        return result as json string
+ */
     public function getKeys($table)
     {
         try {
@@ -40,6 +48,12 @@ class getController  {
         return $this->response->withJson($result);
     }    
 
+/**
+ * getId fetch named row
+ * @param  var $table  table name
+ * @param  var $id     key
+ * @return json        return result as json string
+ */
     public function getId($table,$id)
     {
         try {
@@ -56,8 +70,14 @@ class getController  {
         }
         return $this->response->withJson($result);
     }
-
-    public function getColumn($table,$id,$column)
+/**
+ * getRowColumn Return a single value for Row/Column
+ * @param  var $table  table name
+ * @param  var $id     key
+ * @param  var $column column name
+ * @return json        return result as json string
+ */
+    public function getRowColumn($table,$id,$column)
     {
         try {
             $sth = $this->db->prepare("SELECT $column FROM " . $table . " where pkey=?");

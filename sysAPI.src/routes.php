@@ -5,7 +5,11 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 return function (App $app) {
-	
+
+/**
+ * getRemoteIP returns the remote IP of the client
+ * @return [string] IP address
+ */
 	function getRemoteIP() {
     	if(!empty($_SERVER['HTTP_CLIENT_IP'])){
         //ip from share internet
