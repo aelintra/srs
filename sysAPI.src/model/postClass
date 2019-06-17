@@ -51,8 +51,8 @@ class postController  {
     	}
 */
     	$cols = null;
-    	$vals = null;
     	$prep = null;
+    	$vals = array();
     	foreach ($this->input as $key => $val) {
     		if (empty($this->columnName[$table][$key])) {
     			$result ['reason'] = "Invalid column " . $table . ' => ' . $key;
@@ -60,8 +60,8 @@ class postController  {
     		}
     		else {
     			$cols .= $key . ',';
-    			$vals .= "'" . $val . "'" . ',';
     			$prep .= '?,';
+    			$vals[] = $val;
     		}
     	}
     	if (empty($cols)) {
@@ -69,12 +69,11 @@ class postController  {
             	return $this->response->withJson($result,403);    		
     	}
     	$cols = rtrim($cols,',');
-    	$vals = rtrim($vals,',');
     	$prep = rtrim($prep,',');
 
    		try {
         	$sth = $this->db->prepare("INSERT INTO $table ($cols) values ($prep)");
-        	$sth->execute(array($vals));
+        	$sth->execute($vals);
 //        	$sth->execute(array($input['mac'],$input['redirecturl'],$input['customer'],getRemoteIP()) );
         } catch (exception $e) {
         	if($e->errorInfo[1] === 1062) {
