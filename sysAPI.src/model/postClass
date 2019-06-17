@@ -60,7 +60,7 @@ class postController  {
     		}
     		else {
     			$cols .= $key . ',';
-    			$vals .= $val . ',';
+    			$vals .= '"' . $val . '"' . ',';
     			$prep .= '?,';
     		}
     	}
