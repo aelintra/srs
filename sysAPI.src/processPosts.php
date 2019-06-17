@@ -7,8 +7,14 @@ require_once __DIR__ . "/model/postClass";
     		if (empty($input['customer_pkey'])) {
         		$result ['reason'] = "NULL customer KEY";
             	return $this->response->withJson($result,400);      	
-    		}     		    		
+    		} 
+    		    		    		
             $poster = new postController($this->db,$input,$this->response);
+            $input['vendor'] = $poster->getVendorFromMac($input['pkey']);
+            if (empty($input['vendor'])) {
+        		$result ['reason'] = "MAC (key) is not a supported vendor";
+            	return $this->response->withJson($result,400);                	
+            }
             return $poster->post('endpoint');
         });
 
