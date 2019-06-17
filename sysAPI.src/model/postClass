@@ -80,6 +80,10 @@ class postController  {
         		return $this->response->withJson($result,403);
         	}
         	$result ['reason'] = $e->getMessage();
+        	$result ['cols'] = $cols;
+        	$result ['vals'] = $vals;
+        	$result ['prep'] = $prep;
+
             return $this->response->withJson($result,500);        
         }        
     	return $this->response->withJson($this->input,201);
