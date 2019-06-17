@@ -1,8 +1,4 @@
 <?php
-/*
- * PUT (UPDATE) requires mac.  Customer and requesturl may be updated
- */	
-<?php
 
 require_once __DIR__ . "/model/putClass";
 require_once __DIR__ . "/model/helperClass";
