@@ -10,7 +10,8 @@ class postController  {
 				'dflt_admin_pass' => true,
 				'dflt_redirect' => true,
 				'dflt_sip_reg' => true,
-				'parent_pkey' => true
+				'parent_pkey' => true,
+				'z_updater' => true
 			),
 			'endpoint' => array (
 				'pkey' => true,
@@ -22,13 +23,15 @@ class postController  {
 				'sip_pass' => true,
 				'sip_reg' => true,
 				'transport' => true,
-				'vendor' => true
+				'vendor' => true,
+				'z_updater'
 			),
 			'template' => array (
 				'pkey' => true,
 				'parent_pkey' => true,
 				'provision' => true,
-				'technology' => true
+				'technology' => true,
+				'z_updater' => true
 			)
 		); 	
 
@@ -47,10 +50,11 @@ class postController  {
         	$result ['reason'] = "EMPTY PRIMARY KEY";
             return $this->response->withJson($result,400);      	
     	}
-
+    	$input['z_updater'] = $this->helper->getRemoteIP();
     	$cols = null;
     	$prep = null;
     	$vals = array();
+    	$input['z'] = $this->helper->getRemoteIP();
     	foreach ($this->input as $key => $val) {
     		if (empty($this->columnName[$table][$key])) {
     			$result ['reason'] = "Invalid column " . $table . ' => ' . $key;
