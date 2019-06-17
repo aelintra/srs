@@ -1,6 +1,5 @@
 <?php
 
-
 class deleteController  {
 
 
@@ -11,7 +10,12 @@ class deleteController  {
        $this->response = $response;
 
     }
-
+/**
+ * delete key
+ * @param  str $table table name
+ * @param  str $pkey  key
+ * @return array      json response
+ */
     public function delete($table,$pkey) {
 /*
  *  check for key
