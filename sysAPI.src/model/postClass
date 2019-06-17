@@ -1,6 +1,5 @@
 <?php
 
-
 class postController  {
 
     	protected $columnName = array(
