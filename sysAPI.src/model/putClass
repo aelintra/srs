@@ -1,0 +1,90 @@
+<?php
+
+
+class putController  {
+
+    	protected $columnName = array(
+			'customer' => array (
+				'pkey' => true,
+				'dflt_user_pass' => true,
+				'dflt_admin_pass' => true,
+				'dflt_redirect' => true,
+				'dflt_sip_reg' => true,
+				'parent_pkey' => true,
+				'z_updater' => true
+			),
+			'endpoint' => array (
+				'pkey' => true,
+				'customer_pkey' => true,
+				'displayName' => true,
+				'redirecturl' => true,
+				'mode' => true,
+				'sip_account' => true,
+				'sip_pass' => true,
+				'sip_reg' => true,
+				'transport' => true,
+				'vendor' => true,
+				'z_updater' => true
+			),
+			'template' => array (
+				'pkey' => true,
+				'parent_pkey' => true,
+				'provision' => true,
+				'technology' => true,
+				'z_updater' => true
+			)
+		); 	
+
+    public function __construct($db,$input,$response)
+    {
+       	
+       $this->db = $db;
+       $this->input = $input;
+       $this->response = $response;
+
+    }
+
+    public function put($table) 
+    { 
+		if (empty($this->input['pkey'])) {
+        	$result ['reason'] = "EMPTY PRIMARY KEY";
+            return $this->response->withJson($result,400);      	
+    	}
+    	$helper = new modelHelper();
+    	$this->input['z_updater'] = $helper->getRemoteIP();
+    	$cols = null;
+    	$vals = array();
+    	foreach ($this->input as $key => $val) {
+    		if (empty($this->columnName[$table][$key])) {
+    			$result ['reason'] = "Invalid column " . $table . ' => ' . $key;
+            	return $this->response->withJson($result,403);
+    		}
+            if ($key == 'pkey') {
+                continue;
+            }
+    		else {
+    			$cols .= $key . '=?';
+    			$vals[] = $val;
+    		}
+    	}
+
+    	if (empty($cols)) {
+    			$result ['reason'] = "Empty column list";
+            	return $this->response->withJson($result,403);    		
+    	}
+        $vals[] = $this->input['pkey'];
+    	$cols = rtrim($cols,',');
+
+   		try {
+        	$sth = $this->db->prepare("INSERT INTO $table ($cols) values ($prep) WHERE pkey=?");
+        	$sth->execute($vals);
+//        	$sth->execute(array($input['mac'],$input['redirecturl'],$input['customer'],getRemoteIP()) );
+        } catch (exception $e) {
+        	$result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);        
+        }        
+    	return $this->response->withJson($this->input,201);
+    }
+
+
+}

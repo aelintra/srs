@@ -1,0 +1,32 @@
+<?php
+
+
+class deleteController  {
+
+
+    public function __construct($db,$response)
+    {
+        
+       $this->db = $db;
+       $this->response = $response;
+
+    }
+
+    public function delete($table,$pkey) {
+/*
+ *  check for key
+ */ 
+        if ( empty($pkey)) {
+            $result ['reason'] = "No Key given";
+            return $this->response->withJson($result,400);
+        }
+        try {           
+            $sth = $this->db->prepare("DELETE FROM $table where pkey=?");
+            $sth->execute(array($pkey));
+        } catch (exception $e) {
+            $result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);        
+        }                   
+        $result ['reason'] = $pkey . " deleted OK"; 
+        return $this->response->withJson($result,200);
+    }

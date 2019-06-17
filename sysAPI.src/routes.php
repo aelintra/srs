@@ -8,10 +8,10 @@ return function (App $app) {
 
     $container = $app->getContainer();
 	
-	require __DIR__ . "/processGets.php";
-    require __DIR__ . "/processPosts.php";
-    require __DIR__ . "/processPuts.php";
-    require __DIR__ . "/processDeletes.php";
+	require __DIR__ . "/routeGets.php";
+    require __DIR__ . "/routePosts.php";
+    require __DIR__ . "/routePuts.php";
+    require __DIR__ . "/routeDeletes.php";
 
 //usage	
 	
