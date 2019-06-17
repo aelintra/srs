@@ -5,16 +5,6 @@ class postController  {
 
     public function __construct($db,$input,$response)
     {
-
-       	
-       $this->db = $db;
-       $this->input = $input;
-       $this->response = $response;
-    }
-
-    public function post($table) 
-    { 
-
     	protected $columnNames = array(
 			'customer' => array (
 				'pkey' => true,
@@ -42,6 +32,17 @@ class postController  {
 				'technology' => true
 			)
 		); 
+       	
+       $this->db = $db;
+       $this->input = $input;
+       $this->response = $response;
+
+    }
+
+    public function post($table) 
+    { 
+
+
 /*
 		if (empty($input['pkey'])) {
         	$result ['reason'] = "NULL PRIMARY KEY";
