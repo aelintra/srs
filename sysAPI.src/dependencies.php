@@ -19,7 +19,7 @@ return function (App $app) {
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
     };
-    
+
     // SQLite
 	$container['db'] = function ($c) {
     $dbhost = "localhost";
@@ -32,5 +32,4 @@ return function (App $app) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
 	};
-	
 };
