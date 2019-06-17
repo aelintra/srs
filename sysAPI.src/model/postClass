@@ -8,7 +8,7 @@ class postController  {
 
        	
        $this->db = $db;
-       $this->input = $input
+       $this->input = $input;
        $this->response = $response;
     }
 
