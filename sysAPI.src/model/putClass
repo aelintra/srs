@@ -62,7 +62,7 @@ class putController  {
                 continue;
             }
     		else {
-    			$cols .= $key . '=?';
+    			$cols .= $key . '=?,';
     			$vals[] = $val;
     		}
     	}
