@@ -1,6 +1,5 @@
 <?php
 
-
 class getController  {
 
     public function __construct($db,$response)
