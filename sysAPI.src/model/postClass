@@ -84,8 +84,6 @@ class postController  {
     	return $this->response->withJson($this->input,201);
     }
 
-}
-
 	public function getVendorFromMac($mac) {
 //      $this->helper->logit("GETV mac is $mac  ",5 );
         $short_vendor = NULL;
@@ -113,4 +111,5 @@ class postController  {
         }
 //      $this->helper->logit("GETV shortv is $short_vendor  ",5 );
         return $short_vendor;
+	}
 }
