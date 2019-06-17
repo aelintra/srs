@@ -60,7 +60,7 @@ class postController  {
     		}
     		else {
     			$cols .= $key . ',';
-    			$vals .= '"' . $val . '"' . ',';
+    			$vals .= "'" . $val . "'" . ',';
     			$prep .= '?,';
     		}
     	}
@@ -68,9 +68,9 @@ class postController  {
     			$result ['reason'] = "Empty column list";
             	return $this->response->withJson($result,403);    		
     	}
-    	rtrim($cols,',');
-    	rtrim($vals,',');
-    	rtrim($prep,',');
+    	$cols = rtrim($cols,',');
+    	$vals = rtrim($vals,',');
+    	$prep = rtrim($prep,',');
 
    		try {
         	$sth = $this->db->prepare("INSERT INTO $table ($cols) values ($prep)");
