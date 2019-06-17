@@ -84,7 +84,7 @@ class postController  {
         	$result ['reason'] = $e->getMessage();
             return $this->response->withJson($result,500);        
         }        
-    	return $this->response->withJson($input,201);
+    	return $this->response->withJson($this->input,201);
     }
 
 }
