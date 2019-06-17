@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/model/putClass";
+require_once __DIR__ . "/model/putController";
 require_once __DIR__ . "/model/helperClass";
 
         $app->put('/endpoint', function ($request, $response, $args) {

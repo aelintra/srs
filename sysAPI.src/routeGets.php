@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/model/getClass";
+require_once __DIR__ . "/model/getController";
 /*
     GET processors
  */ 

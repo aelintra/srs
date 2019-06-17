@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/model/deleteClass";
+require_once __DIR__ . "/model/deleteController";
 
         $app->delete('/endpoint/{pkey}', function ($request, $response, $args) {
             $deleter = new deleteController($this->db,$this->response);

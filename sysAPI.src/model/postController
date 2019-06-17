@@ -1,7 +1,10 @@
 <?php
 
 class postController  {
-
+/**
+ * $columnName White listed columns by table/name
+ * @var array
+ */
     	protected $columnName = array(
 			'customer' => array (
 				'pkey' => true,
