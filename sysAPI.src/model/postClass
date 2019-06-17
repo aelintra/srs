@@ -51,7 +51,7 @@ class postController  {
     	}
 */
     	$cols = null;
-    	$vals = array();
+    	$vals = null;
     	$prep = null;
     	foreach ($this->input as $key => $val) {
     		if (empty($this->columnName[$table][$key])) {
