@@ -5,7 +5,7 @@ class postController  {
 
     public function __construct($db,$input,$response)
     {
-    	protected $columnNames = array(
+    	protected $columnName = array(
 			'customer' => array (
 				'pkey' => true,
 				'dflt_user_pass' => true,
@@ -52,8 +52,8 @@ class postController  {
     	$cols = null;
     	$vals = null;
     	$prep = null;
-    	foreach ($input as $key => $val) {
-    		if (empty($table,$key)) {
+    	foreach ($this->input as $key => $val) {
+    		if (empty($this->$columnName[$table,$key])) {
     			$result ['reason'] = "Invalid column " . $table . ' => ' . $key;
             	return $this->response->withJson($result,403);
     		}
