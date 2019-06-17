@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/model/postControllers";
+require_once __DIR__ . "/model/postController";
 require_once __DIR__ . "/model/helperClass";
 
         $app->post('/endpoint', function ($request, $response, $args) {
