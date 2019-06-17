@@ -34,3 +34,4 @@ class deleteController  {
         $result ['reason'] = $pkey . " deleted OK"; 
         return $this->response->withJson($result,200);
     }
+}
