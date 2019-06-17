@@ -6,23 +6,6 @@ use Slim\Http\Response;
 
 return function (App $app) {
 
-/**
- * getRemoteIP returns the remote IP of the client
- * @return [string] IP address
- */
-	function getRemoteIP() {
-    	if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-        //ip from share internet
-        	$ip = $_SERVER['HTTP_CLIENT_IP'];
-    	}elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-        //ip pass from proxy
-        	$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    	}else{
-       		$ip = $_SERVER['REMOTE_ADDR'];
-    	}
-		return($ip);
-	}
-
     $container = $app->getContainer();
 	
 	require __DIR__ . "/processGets.php";

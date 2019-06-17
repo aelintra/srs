@@ -1,8 +1,11 @@
 <?php
 
-
 class modelHelper  {
-
+/**
+ * getVendorFromMac return vendor short name from mac address 
+ * @param  string $mac MAC address without delimiters [:|-]
+ * @return string vendor name 
+ *  */
 	public function getVendorFromMac($mac) {
 //      $this->helper->logit("GETV mac is $mac  ",5 );
         $short_vendor = NULL;
@@ -30,6 +33,21 @@ class modelHelper  {
         }
 //      $this->helper->logit("GETV shortv is $short_vendor  ",5 );
         return $short_vendor;
-	}    
-
+	}  
+/**
+ * getRemoteIP returns the remote IP of the client
+ * @return string IP address
+ */
+	public function getRemoteIP() {
+    	if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+        //ip from share internet
+        	$ip = $_SERVER['HTTP_CLIENT_IP'];
+    	}elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        //ip pass from proxy
+        	$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    	}else{
+       		$ip = $_SERVER['REMOTE_ADDR'];
+    	}
+		return($ip);
+	}	  
 }
