@@ -24,7 +24,7 @@ class postController  {
 				'sip_reg' => true,
 				'transport' => true,
 				'vendor' => true,
-				'z_updater'
+				'z_updater' => true
 			),
 			'template' => array (
 				'pkey' => true,
@@ -51,11 +51,10 @@ class postController  {
             return $this->response->withJson($result,400);      	
     	}
     	$helper = new modelHelper();
-    	$this->input['z_updater'] = $this->helper->getRemoteIP();
+    	$this->input['z_updater'] = $helper->getRemoteIP();
     	$cols = null;
     	$prep = null;
     	$vals = array();
-    	$input['z'] = $this->helper->getRemoteIP();
     	foreach ($this->input as $key => $val) {
     		if (empty($this->columnName[$table][$key])) {
     			$result ['reason'] = "Invalid column " . $table . ' => ' . $key;
