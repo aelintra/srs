@@ -69,7 +69,9 @@ class postController  {
             	return $this->response->withJson($result,403);    		
     	}
     	rtrim($cols,',');
+    	rtrim($vals,',');
     	rtrim($prep,',');
+
    		try {
         	$sth = $this->db->prepare("INSERT INTO $table ($cols) values ($prep)");
         	$sth->execute(array($vals));
