@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/model/postClass";
+require_once __DIR__ . "/model/helperClass";
 
         $app->post('/endpoint', function ($request, $response, $args) {
         	$input = $request->getParsedBody();
@@ -8,13 +9,13 @@ require_once __DIR__ . "/model/postClass";
         		$result ['reason'] = "NULL customer KEY";
             	return $this->response->withJson($result,400);      	
     		} 
-    		    		    		
-            $poster = new postController($this->db,$input,$this->response);
-            $input['vendor'] = $poster->getVendorFromMac($input['pkey']);
+    		$helper = new modelHelper();
+            $input['vendor'] = $helper->getVendorFromMac($input['pkey']);
             if (empty($input['vendor'])) {
         		$result ['reason'] = "MAC (key) is not a supported vendor";
             	return $this->response->withJson($result,400);                	
-            }
+            }    		    		    		    		
+            $poster = new postController($this->db,$input,$this->response);
             return $poster->post('endpoint');
         });
 
