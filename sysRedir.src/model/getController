@@ -30,11 +30,11 @@ class getController  {
         if (preg_match('/([0-9A-Fa-f]{12})(.*)$/',$macfile,$matches)  ) {
                     $mac = $matches[1];
                     $fname = $matches[2];
-                    logit ("Found MAC " . $mac);
+                    $this->logit ("Found MAC " . $mac);
                     logUA();
         }
         else {
-                    logit ("Couldn't REGEX MAC - sending 404 " . $mac);
+                    $this->logit ("Couldn't REGEX MAC - sending 404 " . $mac);
                     return $this->response->withJson($result,404);
         }
     }
