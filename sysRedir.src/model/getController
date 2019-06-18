@@ -26,8 +26,8 @@ class getController  {
             $result ['reason'] = $mac . " Not Found";
             return $this->response->withJson($result,404);   
         }       
-        $redirURL = $getResult['redirecturl'] . $_SERVER["REQUEST_URI"];   
-        return $response->withRedirect($redirURL, 301);
+        $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"];   
+        return $this->response->withRedirect($redirURL, 301);
     }
 
 }
