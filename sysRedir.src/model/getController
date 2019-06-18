@@ -89,7 +89,8 @@ class getController  {
     }
     $this->logit("Unable find model in URI for $mac");      
 
-    return $this->response($this->getstream($endpoint));    
+    $body = $this->response->getBody();
+    return $body->write($this->getstream($endpoint));    
 
 }
 
