@@ -62,8 +62,8 @@ class getController  {
                 return $this->response->withRedirect($redirURL, 301); 
 
             case 2:
-                $result ['reason'] = $mac . " Provision not yet implemented";
-                return $this->response->withJson($result,404);
+//                $result ['reason'] = $mac . " Provision not yet implemented";
+//                return $this->response->withJson($result,404);
                 break;
 
             default:
