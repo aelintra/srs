@@ -130,7 +130,7 @@ try {
     else {
             $sql = $db->prepare('UPDATE endpoint SET lastseen=current_date() WHERE pkey = ?');
     }
-    $sql->execute(array($extension['pkey']))
+    $sql->execute(array($extension['pkey']));
 } catch (Exception $e) {
         $errorMsg = $e->getMessage();
         $this->logit("Unable to update lastseen/firstseen - DB error $errorMsg");
