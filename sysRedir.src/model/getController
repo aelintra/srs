@@ -145,7 +145,7 @@ foreach($pvarray as $row) {
 $this->logit ("====================End of stream======================>",4);
 // send it
 $body = $this->response->getBody();
-   return $body->write($this->getstream($endpoint));  
+return $body->write($retstring);  
 
 }
 
