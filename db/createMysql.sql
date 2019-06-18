@@ -43,11 +43,11 @@ CREATE TABLE IF NOT EXISTS endpoint (
     vendor VARCHAR(32),                 /* Taken from MAC lookup on MAC DB */  
 
     z_created DATETIME DEFAULT CURRENT_TIMESTAMP,
-    z_firstseen DATETIME,
-    z_lastseen DATETIME,
+    z_firstseen DATETIME,               /* first request date */
+    z_lastseen DATETIME,                /* latest request date */
+    z_lastloc VARCHAR(32),              /* last request origin */
     z_updated TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     z_updater VARCHAR(32) DEFAULT 'system',
-
 
     PRIMARY KEY (pkey),
     FOREIGN KEY (customer_pkey) REFERENCES customer(pkey)
