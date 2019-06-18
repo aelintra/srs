@@ -1,0 +1,33 @@
+<?php
+
+class getController  {
+
+    public function __construct($db,$response)
+    {
+       $this->db = $db;
+       $this->response = $response;
+    }
+/**
+ * get fetch all for an endpoint
+ * @param  var $table  table name
+ * @return json        return result as json string
+ */
+    public function get($mac) 
+    {
+        try {
+            $sth = $this->db->prepare("SELECT * FROM endpoint where pkey=?");
+            $sth->execute(array($mac));
+            $endpoint = $sth->fetch();
+        } catch (exception $e) {
+            $result ['reason'] = $e->getMessage();
+            return $this->response->withJson($result,500);        
+        } 
+        if (empty($endpoint)) {
+            $result ['reason'] = $mac . " Not Found";
+            return $this->response->withJson($result,404);   
+        }       
+        $redirURL = $getResult['redirecturl'] . $_SERVER["REQUEST_URI"];   
+        return $response->withRedirect($redirURL, 301);
+    }
+
+}
