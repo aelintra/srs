@@ -166,19 +166,19 @@ private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) {
             $thisConfig = $configs->fetchObject();
         } catch (Exception $e) {
             $errorMsg = $e->getMessage();
-            $this->logit("Could not retrieve sub-template $devpkey  - DB error $errorMsg"); 
+            $this->logit("Could not retrieve sub-template $nextPkey  - DB error $errorMsg"); 
             continue;         
         }
         if (!is_object($thisConfig)) {
-            $this->logit("Unable to send Descriptor file for $devpkey - skipping");
+            $this->logit("Unable to send Descriptor file for $nextPkey - skipping");
             continue;
         }
         if (isset($loopcheck[$devpkey])) {
-            $this->logit("LOOP FOUND in INCLUDES for $devpkey - won't touch it again!");
+            $this->logit("LOOP FOUND in INCLUDES for $nextPkey - won't touch it again!");
             continue;
         }
         if (! isset ($thisConfig)) {
-            $this->logit("Can't find INCLUDE for $devpkey - skipping");
+            $this->logit("Can't find INCLUDE for $nextPkey - skipping");
             continue;
         }
         $loopcheck[$devpkey] = true;
