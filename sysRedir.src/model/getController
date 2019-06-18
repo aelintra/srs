@@ -125,10 +125,10 @@ $retstring = preg_replace ( '/\$ext/', $endpoint['sip_account'], $retstring);
 // try to update lasteen
 try {
     if (empty($endpoint['firstseen'])) {
-            $sql = $this->db->prepare('UPDATE endpoint SET firstseen=current_date(),lastseen=current_date() WHERE pkey = ?');
+            $sql = $this->db->prepare('UPDATE endpoint SET z_firstseen = current_date(), z_lastseen = current_date() WHERE pkey = ?');
     }
     else {
-            $sql = $$this->db->prepare('UPDATE endpoint SET lastseen=current_date() WHERE pkey = ?');
+            $sql = $$this->db->prepare('UPDATE endpoint SET z_lastseen = current_date() WHERE pkey = ?');
     }
     $sql->execute(array($endpoint['pkey']));
 } catch (Exception $e) {
