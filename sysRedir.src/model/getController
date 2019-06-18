@@ -25,9 +25,26 @@ class getController  {
         if (empty($endpoint)) {
             $result ['reason'] = $mac . " Not Found";
             return $this->response->withJson($result,404);   
-        }       
-        $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"];   
-        return $this->response->withRedirect($redirURL, 301);
+        } 
+
+        switch ($endpoint['mode']) {
+            case 0:
+                $result ['reason'] = $mac . " Inactive";
+                return $this->response->withJson($result,404);
+
+            case 1:
+                $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"];   
+                return $this->response->withRedirect($redirURL, 301); 
+
+            case 2:
+                $result ['reason'] = $mac . " Provision not yet implemented";
+                return $this->response->withJson($result,404);  
+
+            default:
+                $result ['reason'] = $mac . " Invalid Request";
+                return $this->response->withJson($result,500);  
+        }      
+        
     }
 
 }
