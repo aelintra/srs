@@ -112,14 +112,14 @@ $this->cleanConfig($endpoint['pkey'],$rawConfig,$retstring,$loopcheck);
 
 // substitute real values into the output   
 if (preg_match('/\$localip/',$retstring)) {
-    $retstring = preg_replace ( '/\$localip/', $extension['sip_reg'], $retstring); 
+    $retstring = preg_replace ( '/\$localip/', $endpoint['sip_reg'], $retstring); 
 }
 //$retstring = preg_replace ( '/\$tlsport/', $tlsport, $retstring);
 //$retstring = preg_replace ( '/\$ldapbase/', $ldapbase, $retstring);
 
-$retstring = preg_replace ( '/\$desc/', $extension['displayname'], $retstring);
-$retstring = preg_replace ( '/\$password/', $extension['sip_pass'], $retstring);
-$retstring = preg_replace ( '/\$ext/', $extension['sip_account'], $retstring);
+$retstring = preg_replace ( '/\$desc/', $endpoint['displayname'], $retstring);
+$retstring = preg_replace ( '/\$password/', $endpoint['sip_pass'], $retstring);
+$retstring = preg_replace ( '/\$ext/', $endpoint['sip_account'], $retstring);
 
 
 // try to update lasteen
@@ -130,7 +130,7 @@ try {
     else {
             $sql = $db->prepare('UPDATE endpoint SET lastseen=current_date() WHERE pkey = ?');
     }
-    $sql->execute(array($extension['pkey']));
+    $sql->execute(array($endpoint['pkey']));
 } catch (Exception $e) {
         $errorMsg = $e->getMessage();
         $this->logit("Unable to update lastseen/firstseen - DB error $errorMsg");
