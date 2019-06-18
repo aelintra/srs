@@ -225,7 +225,7 @@ private function logUA() {
 private function logIt($someText,$userloglevel=0) {
 
     if ($userloglevel <= $this->loglevel) {   
-        syslog(LOG_WARNING, $_SERVER["REMOTE_ADDR"] . " " . $someText . "\n");
+        syslog(LOG_WARNING, $_SERVER["REMOTE_ADDR"] . " " . $someText);
     }
 }
 
