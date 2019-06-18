@@ -212,7 +212,7 @@ private function logUA() {
   
     if ($model) {
         $this->logit ("Found phone model $model from UA");
-        return $model;
+        return $model; 
     }
     $useragent = null;
     if (isset($_SERVER["HTTP_USER_AGENT"])) {
