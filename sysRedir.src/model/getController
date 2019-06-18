@@ -162,7 +162,7 @@ private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) {
         $nextPkey = trim($match[1]);
         try {
             $configs = $this->db->prepare('select pkey, provision from template where pkey = ?');
-            $configs->execute(array($devpkey));
+            $configs->execute(array($extPkey));
             $thisConfig = $configs->fetchObject();
         } catch (Exception $e) {
             $errorMsg = $e->getMessage();
