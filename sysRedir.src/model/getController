@@ -11,7 +11,6 @@ class getController  {
     }
 
 
-
 /**
  * get fetch all for an endpoint
  * @param  var $table  table name
