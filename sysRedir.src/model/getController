@@ -7,7 +7,7 @@ class getController  {
        $this->db = $db;
        $this->request = $request;
        $this->response = $response;
-
+       $this->loglevel = 5;
     }
 
 
@@ -173,7 +173,7 @@ private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) {
             $this->logit("Unable to send Descriptor file for $nextPkey - skipping");
             continue;
         }
-        if (isset($loopcheck[$devpkey])) {
+        if (isset($loopcheck[$nextPkey])) {
             $this->logit("LOOP FOUND in INCLUDES for $nextPkey - won't touch it again!");
             continue;
         }
@@ -181,7 +181,7 @@ private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) {
             $this->logit("Can't find INCLUDE for $nextPkey - skipping");
             continue;
         }
-        $loopcheck[$devpkey] = true;
+        $loopcheck[$nextPkey] = true;
         $rawConfig = $thisConfig->provision;    
         $this->cleanConfig($nextPkey,$rawConfig,$retstring,$loopCheck); 
         continue;
@@ -223,8 +223,8 @@ private function logUA() {
 }   
 
 private function logIt($someText,$userloglevel=0) {
-    global $loglevel;
-    if ($userloglevel <= $loglevel) {   
+
+    if ($userloglevel <= $this->loglevel) {   
         syslog(LOG_WARNING, $_SERVER["REMOTE_ADDR"] . " " . $someText . "\n");
     }
 }
