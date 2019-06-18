@@ -31,7 +31,6 @@ class getController  {
                     $mac = $matches[1];
                     $fname = $matches[2];
                     $this->logit ("Found MAC " . $mac);
-                    logUA();
         }
         else {
                     $this->logit ("Couldn't REGEX MAC - sending 404 " . $mac);
