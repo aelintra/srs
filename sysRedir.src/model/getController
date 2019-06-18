@@ -105,7 +105,7 @@ $loopCheck = array();
 $rawConfig = $endpoint['provision'] . "\n";
 
 // expand the template stack    
-cleanConfig($endpoint['pkey'],$rawConfig,$retstring,$loopcheck);
+$this->cleanConfig($endpoint['pkey'],$rawConfig,$retstring,$loopcheck);
 
 // get ready to substitute into it from the values we have
 
@@ -194,7 +194,7 @@ private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) {
         }
         $loopcheck[$devpkey] = true;
         $rawConfig = $thisConfig->provision;    
-        cleanConfig($nextPkey,$rawConfig,$retstring,$loopCheck); 
+        $this->cleanConfig($nextPkey,$rawConfig,$retstring,$loopCheck); 
         continue;
     }   
     $retstring .= $line . "\n";
