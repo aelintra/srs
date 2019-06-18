@@ -81,7 +81,7 @@ class getController  {
                 $sql = $db->prepare('UPDATE endpoint SET devicemodel=? WHERE pkey = ?');
                 $sql->execute(array($model,endpoint['pkey']));
             } catch (Exception $e) {
-                $errorMsg = $e->getMessage();
+                $result['reason'] = $e->getMessage();
                 $this->logit("Unable update mac file for $mac  - DB error $errorMsg");
                 return $this->response->withJson($result,404);
             }
@@ -132,10 +132,9 @@ try {
     }
     $sql->execute(array($endpoint['pkey']));
 } catch (Exception $e) {
-        $errorMsg = $e->getMessage();
+        $result['reason'] = $e->getMessage();
         $this->logit("Unable to update lastseen/firstseen - DB error $errorMsg");
-        send404();
-        exit(1);
+        return $this->response->withJson($result,404);
 }
     
 // and, if we got this far,  finally ship it out
@@ -176,9 +175,8 @@ private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) {
             $thisConfig = $configs->fetchObject();
         } catch (Exception $e) {
             $errorMsg = $e->getMessage();
-            $this->logit("Could not retrieve sub-template $devpkey  - DB error $errorMsg");
-            send404();
-            exit;           
+            $this->logit("Could not retrieve sub-template $devpkey  - DB error $errorMsg"); 
+            continue;         
         }
         if (!is_object($thisConfig)) {
             $this->logit("Unable to send Descriptor file for $devpkey - skipping");
