@@ -2,49 +2,242 @@
 
 class getController  {
 
-    public function __construct($db,$response)
+    public function __construct($db,$request,$response)
     {
        $this->db = $db;
+       $this->request = $request;
        $this->response = $response;
+
     }
+
+
+
 /**
  * get fetch all for an endpoint
  * @param  var $table  table name
  * @return json        return result as json string
  */
-    public function get($mac) 
-    {
-        try {
+    public function provision($macfile=null) {
+
+    $this->logit ("processing URI " . $_SERVER["REQUEST_URI"]);
+// see if we have a mac in the GET
+    if (isset($_GET['mac'])) {
+        $mac = strtolower($_GET['mac']);
+        logit ("Found MAC " . $mac);        
+    } 
+    else {  
+// try to harvest a MAC address
+        if (preg_match('/([0-9A-Fa-f]{12})(.*)$/',$macfile,$matches)  ) {
+                    $mac = $matches[1];
+                    $fname = $matches[2];
+                    logit ("Found MAC " . $mac);
+                    logUA();
+        }
+        else {
+                    logit ("Couldn't REGEX MAC - sending 404 " . $mac);
+                    return $this->response->withJson($result,404);
+        }
+    }
+
+    try {
             $sth = $this->db->prepare("SELECT * FROM endpoint where pkey=?");
             $sth->execute(array($mac));
             $endpoint = $sth->fetch();
-        } catch (exception $e) {
+    } catch (exception $e) {
             $result ['reason'] = $e->getMessage();
             return $this->response->withJson($result,500);        
-        } 
-        if (empty($endpoint)) {
+    } 
+    if (empty($endpoint)) {
             $result ['reason'] = $mac . " Not Found";
             return $this->response->withJson($result,404);   
-        } 
+    } 
 
-        switch ($endpoint['mode']) {
+    switch ($endpoint['mode']) {
             case 0:
                 $result ['reason'] = $mac . " Inactive";
                 return $this->response->withJson($result,404);
 
             case 1:
-                $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"];   
+                $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"]; 
+                $this->logit("mode is Redirect $redirURL Sending 301 ");  
                 return $this->response->withRedirect($redirURL, 301); 
 
             case 2:
                 $result ['reason'] = $mac . " Provision not yet implemented";
-                return $this->response->withJson($result,404);  
+                return $this->response->withJson($result,404);
+                break;
 
             default:
                 $result ['reason'] = $mac . " Invalid Request";
                 return $this->response->withJson($result,500);  
-        }      
-        
     }
+
+// update the phone model (it may have changed or it may not be present yet)
+    $model = $this->logUA();
+    if (!empty($model)) {
+        if ($model != endpoint['devicemodel'] {
+// set the model in the extension record    
+            $this->logit("Device model differs between UA and DB.  UA = $model, DB = " . $thisConfig->devicemodel);
+            try {
+                $sql = $db->prepare('UPDATE endpoint SET devicemodel=? WHERE pkey = ?');
+                $sql->execute(array($model,endpoint['pkey']));
+            } catch (Exception $e) {
+                $errorMsg = $e->getMessage();
+                $this->logit("Unable update mac file for $mac  - DB error $errorMsg");
+                return $this->response->withJson($result,404);
+            }
+        }
+    }
+    $this->logit("Unable find model in URI for $mac");      
+
+    return $this->response($this->getstream($endpoint));    
+
+}
+
+private function getStream($endpoint) {
+
+//header('Content-type: text/plain');
+
+// fetch the template
+
+//create an empty loopcheck array 
+$loopCheck = array();
+$rawConfig = $endpoint['provision'] . "\n";
+
+// expand the template stack    
+cleanConfig($endpoint['pkey'],$rawConfig,$retstring,$loopcheck);
+
+// get ready to substitute into it from the values we have
+
+
+// substitute real values into the output   
+if (preg_match('/\$localip/',$retstring)) {
+    $retstring = preg_replace ( '/\$localip/', $extension['sip_reg'], $retstring); 
+}
+//$retstring = preg_replace ( '/\$tlsport/', $tlsport, $retstring);
+//$retstring = preg_replace ( '/\$ldapbase/', $ldapbase, $retstring);
+
+$retstring = preg_replace ( '/\$desc/', $extension['displayname'], $retstring);
+$retstring = preg_replace ( '/\$password/', $extension['sip_pass'], $retstring);
+$retstring = preg_replace ( '/\$ext/', $extension['sip_account'], $retstring);
+
+
+// try to update lasteen
+try {
+    if (empty($endpoint['firstseen'])) {
+            $sql = $db->prepare('UPDATE endpoint SET firstseen=current_date(),lastseen=current_date() WHERE pkey = ?');
+    }
+    else {
+            $sql = $db->prepare('UPDATE endpoint SET lastseen=current_date() WHERE pkey = ?');
+    }
+    $sql->execute(array($extension['pkey']))
+} catch (Exception $e) {
+        $errorMsg = $e->getMessage();
+        $this->logit("Unable to update lastseen/firstseen - DB error $errorMsg");
+        send404();
+        exit(1);
+}
+    
+// and, if we got this far,  finally ship it out
+
+if ($frequest) {
+    $this->logit("sending config $frequest");
+}
+else {
+    $this->logit("sending config $mac$fname");
+    $this->logit ("endpoint to be provisioned using " . $thisConfig->provisionwith, $thisConfig->protocol);
+}
+$retstring = str_replace("\r", "", $retstring);
+$pvarray = explode(PHP_EOL,$retstring);
+$this->logit ("====================provisioning stream================>",4);
+foreach($pvarray as $row) {
+    $this->logit (trim($row),4);
+}
+$this->logit ("====================End of stream======================>",4);
+// send it
+return $retstring; 
+
+}
+
+private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) { 
+
+  $inline=False;
+  $lines = explode("\n", $rawConfig);
+
+  foreach ($lines as $line) {
+    $line = preg_replace("/\r/", "", $line);               
+    
+// check for INCLUDE and recurse
+    if (preg_match(' /^[;#]INCLUDE\s*([\w_\-\.\/\(\)\s]*)\s*$/',$line,$match)) {
+        $nextPkey = trim($match[1]);
+        try {
+            $configs = $this->db->prepare('select pkey, provision from template where pkey = ?');
+            $configs->execute(array($devpkey));
+            $thisConfig = $configs->fetchObject();
+        } catch (Exception $e) {
+            $errorMsg = $e->getMessage();
+            $this->logit("Could not retrieve sub-template $devpkey  - DB error $errorMsg");
+            send404();
+            exit;           
+        }
+        if (!is_object($thisConfig)) {
+            $this->logit("Unable to send Descriptor file for $devpkey - skipping");
+            continue;
+        }
+        if (isset($loopcheck[$devpkey])) {
+            $this->logit("LOOP FOUND in INCLUDES for $devpkey - won't touch it again!");
+            continue;
+        }
+        if (! isset ($thisConfig)) {
+            $this->logit("Can't find INCLUDE for $devpkey - skipping");
+            continue;
+        }
+        $loopcheck[$devpkey] = true;
+        $rawConfig = $thisConfig->provision;    
+        cleanConfig($nextPkey,$rawConfig,$retstring,$loopCheck); 
+        continue;
+    }   
+    $retstring .= $line . "\n";
+  }
+}
+
+private function logUA() {
+
+    $manufacturer_regex = Array(
+        "snom" => '(snom\w+)\-SIP',
+        "yealink" => 'Yealink\sSIP-([\w-]+)\s',
+        "yealinkDECT" => 'Yealink\s([\w-]+)\s',
+        "panasonic" => 'Panasonic_(KX-\w+)\/',
+    );
+  
+    $model = NULL;
+    if (isset($_SERVER["HTTP_USER_AGENT"])) {
+        $this->logit ("Found UA " . $_SERVER["HTTP_USER_AGENT"]);
+        foreach ($manufacturer_regex as $manex) {
+            if (preg_match('/' . $manex . '/' ,$_SERVER["HTTP_USER_AGENT"],$matches)) {
+                $model = $matches[1];
+                break;
+            }
+        }
+    }
+  
+    if ($model) {
+        $this->logit ("Found phone model $model from UA");
+        return $model;
+    }
+    $useragent = null;
+    if (isset($_SERVER["HTTP_USER_AGENT"])) {
+        $useragent = $_SERVER["HTTP_USER_AGENT"];
+    }
+    $this->logit ("UA not found or unknown $useragent" );
+//  send404();
+}   
+
+private function logIt($someText,$userloglevel=0) {
+    global $loglevel;
+    if ($userloglevel <= $loglevel) {   
+        syslog(LOG_WARNING, $_SERVER["REMOTE_ADDR"] . " " . $someText . "\n");
+    }
+}
 
 }
