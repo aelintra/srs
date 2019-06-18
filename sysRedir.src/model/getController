@@ -89,12 +89,7 @@ class getController  {
     }
     $this->logit("Unable find model in URI for $mac");      
 
-    $body = $this->response->getBody();
-    return $body->write($this->getstream($endpoint));    
-
-}
-
-private function getStream($endpoint) {
+   
 
 //header('Content-type: text/plain');
 
@@ -149,7 +144,8 @@ foreach($pvarray as $row) {
 }
 $this->logit ("====================End of stream======================>",4);
 // send it
-return $retstring; 
+$body = $this->response->getBody();
+   return $body->write($this->getstream($endpoint));  
 
 }
 
