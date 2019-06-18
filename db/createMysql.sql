@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS endpoint (
     pkey VARCHAR(12) NOT NULL,          /* MAC address */
     customer_pkey VARCHAR(50),          /* Customer foreign key */
    
-    displayName VARCHAR(32),            /* Phone display name */
+    displayName VARCHAR(32),            /* Phone display name */ 
     devicemodel VARCHAR(32),            /* Harvested device model */
     provision TEXT,                     /* root provisioning directives copied from root template */
     redirecturl VARCHAR(2047),          /* redirect target */ 
