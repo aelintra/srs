@@ -17,6 +17,6 @@ require_once __DIR__ . "/model/getController";
 
         $app->get('/provisioning/{macfile}', function ($request, $response, $args) {        
             $getter = new getController($this->db,$this->request,$this->response);
-            return $getter->provision($macfile);
+            return $getter->provision($args['macfile']);
         });
 };
