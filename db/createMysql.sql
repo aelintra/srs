@@ -13,12 +13,12 @@ GRANT ALL PRIVILEGES
 use macdb;
 
 CREATE TABLE IF NOT EXISTS customer (
-    pkey VARCHAR(64) NOT NULL DEFAULT 'system',          /* Customer name/number */ 
-    parent VARCHAR(64),                 /* parent Foreign key */ 
+    pkey VARCHAR(64) NOT NULL DEFAULT 'system',             /* Customer name/number */ 
+    parent VARCHAR(64),                                     /* parent Foreign key */ 
 
-    dflt_ep_user VARCHAR(32),           /* this is for the phone browser */
-    dflt_ep_user_pass VARCHAR(32),      /* this is for the phone browser */
-    dflt_ep_admin_pass VARCHAR(32),     /* this is for the phone browser */ 
+    dflt_ep_user VARCHAR(32) DEFAULT 'user',                /* this is for the phone browser */
+    dflt_ep_user_pass VARCHAR(32) DEFAULT 'myuserpass',     /* this is for the phone browser */
+    dflt_ep_admin_pass VARCHAR(32) DEFAULT 'myadminpass',   /* this is for the phone browser */ 
 
     dflt_redirecturl VARCHAR(2047),     /* default redirect target */     
     dflt_sip_reg VARCHAR(2047),         /* default SIP Registration URL */
@@ -42,12 +42,11 @@ CREATE TABLE IF NOT EXISTS customer (
 ); 
 
 CREATE TABLE IF NOT EXISTS template (
-    pkey VARCHAR(64) NOT NULL,          /* Template name */
-    parent VARCHAR(64),            /* parent Foreign key */
+    pkey VARCHAR(64) NOT NULL,                        /* Template name */
+    parent VARCHAR(64),                               /* parent Foreign key */
     customer VARCHAR(64) NOT NULL DEFAULT 'system',   /* Template owner */
     
     provision TEXT,                     /* provisioning directives */
-    technology VARCHAR(32),             /* SIP/Descriptor/BLF Template */
 
     z_created DATETIME DEFAULT CURRENT_TIMESTAMP,
     z_updated TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -95,9 +94,9 @@ CREATE TABLE IF NOT EXISTS endpoint (
     vendor VARCHAR(32),                     /* Autofill from MAC lookup on MAC DB */  
 
     z_created DATETIME DEFAULT CURRENT_TIMESTAMP,
-    z_firstseen DATETIME,               /* first request date */
-    z_lastseen DATETIME,                /* latest request date */
-    z_lastloc VARCHAR(32),              /* last request origin */
+    z_firstseen DATETIME,                   /* first request date */
+    z_lastseen DATETIME,                    /* latest request date */
+    z_lastloc VARCHAR(32),                  /* last request origin */
     z_updated TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     z_updater VARCHAR(32) DEFAULT 'system',
 
