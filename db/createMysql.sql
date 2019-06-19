@@ -13,8 +13,8 @@ GRANT ALL PRIVILEGES
 use macdb;
 
 CREATE TABLE IF NOT EXISTS customer (
-    pkey VARCHAR(64) NOT NULL DEFAULT 'system',             /* Customer name/number */ 
-    parent VARCHAR(64) DEFAULT 'system',                    /* parent Foreign key */ 
+    pkey VARCHAR(64) NOT NULL DEFAULT 'system',        /* Customer name/number */ 
+    parent VARCHAR(64),                                /* parent Foreign key */ 
 
     ep_user VARCHAR(32) DEFAULT 'user',                /* this is for the phone browser */
     ep_user_pass VARCHAR(32) DEFAULT 'myuserpass',     /* this is for the phone browser */
