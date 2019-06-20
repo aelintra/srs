@@ -20,13 +20,13 @@ CREATE TABLE IF NOT EXISTS customer (
     ep_user_pass VARCHAR(32) DEFAULT 'myuserpass',     /* this is for the phone browser */
     ep_admin_pass VARCHAR(32) DEFAULT 'myadminpass',   /* this is for the phone browser */ 
 
-    dflt_redirecturl VARCHAR(2047),     /* default redirect target */     
-    dflt_sip_reg VARCHAR(2047),         /* default SIP Registration URL */
+    dflt_redirecturl VARCHAR(2047),    /* default redirect target */     
+    dflt_sipurl VARCHAR(2047),         /* default SIP Registration URL */
 
     ldapbase VARCHAR(2047),            /* default LDAP base */
     ldaphost VARCHAR(2047),            /* default LDAP host */
-    ldappass VARCHAR(2047),            /* default LDAP pwd */    
-    ldapuser VARCHAR(2047),            /* default LDAP user */
+    ldappass VARCHAR(32),            /* default LDAP pwd */    
+    ldapuser VARCHAR(32),            /* default LDAP user */
 
     z_created DATETIME DEFAULT CURRENT_TIMESTAMP,
     z_updated TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -85,8 +85,6 @@ CREATE TABLE IF NOT EXISTS endpoint (
     device VARCHAR(64),                     /* Autofill device model */
     
     displayname VARCHAR(32),                /* Phone display name */ 
-    devicemodel VARCHAR(64),                /* Autofill device model */
-
     mode TINYINT(1) DEFAULT 1,              /* 0 => Inactive, 1 => Redirect, 2 => Provision */
     provision TEXT,                         /* Autofill from pkey template */
     redirecturl VARCHAR(2047),              /* redirect target */       
