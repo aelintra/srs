@@ -38,7 +38,7 @@ class getController  {
     }
 
     try {
-        $sth = $this->db->prepare("SELECT T1.pkey,T1.displayname,T1.mode,T1.provision,T1.sipaccount,T1.sippass, T2.ep_user, T2.ep_user_pass, T2.ep_admin_pass, T2.provurl, T2.sipurl, T2.ldappass, T2.ldaphost, T2.ldapbase, T2.ldapuser FROM endpoint T1 JOIN customer T2 WHERE T1.customer=T2.pkey AND T1.pkey=?");
+        $sth = $this->db->prepare("SELECT T1.* T2.ep_user, T2.ep_user_pass, T2.ep_admin_pass, T2.provurl, T2.sipurl, T2.ldappass, T2.ldaphost, T2.ldapbase, T2.ldapuser FROM endpoint T1 JOIN customer T2 WHERE T1.customer=T2.pkey AND T1.pkey=?");
         $sth->execute(array($mac));
         $endpoint = $sth->fetch();
     } catch (exception $e) {
@@ -63,7 +63,7 @@ class getController  {
         case 2:
 //          $result ['reason'] = $mac . " Provision not yet implemented";
 //          return $this->response->withJson($result,404);
-                break;
+            break;
 
         default:
             $result ['reason'] = $mac . " Invalid Request";
@@ -121,7 +121,7 @@ class getController  {
     $retstring = preg_replace ( '/\$ldaphost/', $endpoint['ldaphost'], $retstring);
     $retstring = preg_replace ( '/\$ldapbase/', $endpoint['ldapbase'], $retstring);
     $retstring = preg_replace ( '/\$ep_user/', $endpoint['ep_user'], $retstring);
-    $retstring = preg_replace ( '/\$ep_pass/', $endpoint['ep_pass'], $retstring);
+    $retstring = preg_replace ( '/\$ep_user_pass/', $endpoint['ep_user_pass'], $retstring);
     $retstring = preg_replace ( '/\$ep_admin_pass/', $endpoint['ep_admin_pass'], $retstring);
 
 // try to update lasteen
