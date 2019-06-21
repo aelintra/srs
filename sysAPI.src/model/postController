@@ -30,6 +30,7 @@ class postController  {
             'endpoint' => array (
                 'pkey' => true,
                 'customer' => true,
+                'customtemplate' => true,                
                 'displayname' => true,
                 'redirecturl' => true,
                 'mode' => true,
@@ -37,6 +38,7 @@ class postController  {
                 'sipaccount' => true,
                 'sippass' => true,
                 'sipurl' => true,
+                'vendor' => true,
                 'z_updater' => true
             ),
             'template' => array (
