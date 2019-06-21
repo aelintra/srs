@@ -77,13 +77,13 @@ class postController  {
 // copy the base provisioning directives from the base teemplate
                 try {
                     $sth = $this->db->prepare("SELECT provision from template WHERE pkey=?");
-                    $sth->execute(array($this->input['template'])); 
+                    $sth->execute(array($this->input['vendor'])); 
                     $result = $sth->fetchAll();
                 } catch (exception $e) {
                     return $this->response->withJson($result,403);
                 }
                 if (empty($result)) {
-                    $result ['reason'] = "Template " . input['template'] . ' DOES NOT EXIST ';
+                    $result ['reason'] = "Template " . $this->input['vendor'] . ' DOES NOT EXIST ';
                     return $this->response->withJson($result,404);  
                 }                  
                 $this->input['provision'] = $result['provision'];  
