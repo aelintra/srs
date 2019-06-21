@@ -80,7 +80,7 @@ class postController  {
                 try {
                     $sth = $this->db->prepare("SELECT provision from template WHERE pkey=?");
                     $sth->execute(array($this->input['vendor'])); 
-                    $result = $sth->fetchAll();
+                    $result = $sth->fetch();
                 } catch (exception $e) {
                     return $this->response->withJson($result,403);
                 }
