@@ -2,47 +2,51 @@
 
 class postController  {
 
-require_once __DIR__ . "/model/helperClass";
+//require_once __DIR__ . "/model/helperClass";
+//
+//
 
 /**
  * $columnName White listed columns by table/name
  * @var array
  */
-    	protected $columnName = array(
-			'customer' => array (
-				'pkey' => true,
+        protected $columnName = array(
+            'customer' => array (
+                'pkey' => true,
                 'ep_user' => true,                
-				'ep_user_pass' => true,
-				'ep_admin_pass' => true,
-				'dflt_redirecturl' => true,
-				'dflt_sipurl' => true,
+                'ep_user_pass' => true,
+                'ep_admin_pass' => true,
+                'dflt_redirecturl' => true,
                 'ldapbase' => true,
                 'ldaphost' => true,
                 'ldapuser' => true,
                 'ldappass' => true,
-				'parent' => true,
-				'z_updater' => true
-			),
-			'endpoint' => array (
-				'pkey' => true,
-				'customer' => true,
-				'displayname' => true,
-				'redirecturl' => true,
-				'mode' => true,
-                'provision' => true,
-				'sipaccount' => true,
-				'sippass' => true,
-				'sipurl' => true,
-				'z_updater' => true
-			),
-			'template' => array (
-				'pkey' => true, 
-				'parent' => true,
+                'provurl' => true,
+                'redirecturl' => true,
+                'sipurl' => true,                
+                'parent' => true,
+                'z_updater' => true
+            ),
+            'endpoint' => array (
+                'pkey' => true,
                 'customer' => true,
-				'provision' => true,
-				'z_updater' => true
-			)
-		); 	
+                'displayname' => true,
+                'redirecturl' => true,
+                'mode' => true,
+                'provision' => true,
+                'sipaccount' => true,
+                'sippass' => true,
+                'sipurl' => true,
+                'z_updater' => true
+            ),
+            'template' => array (
+                'pkey' => true, 
+                'parent' => true,
+                'customer' => true,
+                'provision' => true,
+                'z_updater' => true
+            )
+        );  
 
     public function __construct($db,$input,$response)
     {
