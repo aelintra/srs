@@ -38,7 +38,7 @@ class getController  {
     }
 
     try {
-        $sth = $this->db->prepare("SELECT T1.pkey,T1.displayname,T1.provision,T1.sipaccount,T1.sippass, T2.ep_user, T2.ep_user_pass, T2.ep_admin_pass, T2.provurl, T2.sipurl, T2.ldappass, T2.ldaphost, T2.ldapbase, T2.ldapuser FROM endpoint T1 JOIN customer T2 WHERE T1.customer=T2.pkey AND T1.pkey=?");
+        $sth = $this->db->prepare("SELECT T1.pkey,T1.displayname,T1.mode,T1.provision,T1.sipaccount,T1.sippass, T2.ep_user, T2.ep_user_pass, T2.ep_admin_pass, T2.provurl, T2.sipurl, T2.ldappass, T2.ldaphost, T2.ldapbase, T2.ldapuser FROM endpoint T1 JOIN customer T2 WHERE T1.customer=T2.pkey AND T1.pkey=?");
         $sth->execute(array($mac));
         $endpoint = $sth->fetch();
     } catch (exception $e) {
