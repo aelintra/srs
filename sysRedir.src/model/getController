@@ -38,36 +38,36 @@ class getController  {
     }
 
     try {
-            $sth = $this->db->prepare("SELECT * FROM endpoint where pkey=?");
-            $sth->execute(array($mac));
-            $endpoint = $sth->fetch();
+        $sth = $this->db->prepare("SELECT T1.pkey,T1.displayname,T1.provision,T1.sipaccount,T1.sippass, T2.ep_user, T2.ep_user_pass, T2.ep_admin_pass, T2.provurl, T2.sipurl, T2.ldappass, T2.ldaphost, T2.ldapbase, T2.ldapuser FROM endpoint T1 JOIN customer T2 WHERE T1.customer=T2.pkey AND T1.pkey=?");
+        $sth->execute(array($mac));
+        $endpoint = $sth->fetch();
     } catch (exception $e) {
-            $result ['reason'] = $e->getMessage();
-            return $this->response->withJson($result,500);        
+        $result ['reason'] = $e->getMessage();
+        return $this->response->withJson($result,500);        
     } 
     if (empty($endpoint)) {
-            $result ['reason'] = $mac . " Not Found";
-            return $this->response->withJson($result,404);   
+        $result ['reason'] = $mac . " Not Found";
+        return $this->response->withJson($result,404);   
     } 
 
     switch ($endpoint['mode']) {
-            case 0:
-                $result ['reason'] = $mac . " Inactive";
-                return $this->response->withJson($result,404);
+        case 0:
+            $result ['reason'] = $mac . " Inactive";
+            return $this->response->withJson($result,404);
 
-            case 1:
-                $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"]; 
-                $this->logit("mode is Redirect $redirURL Sending 301 ");  
-                return $this->response->withRedirect($redirURL, 301); 
+        case 1:
+            $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"]; 
+            $this->logit("mode is Redirect $redirURL Sending 301 ");  
+            return $this->response->withRedirect($redirURL, 301); 
 
-            case 2:
-//                $result ['reason'] = $mac . " Provision not yet implemented";
-//                return $this->response->withJson($result,404);
+        case 2:
+//          $result ['reason'] = $mac . " Provision not yet implemented";
+//          return $this->response->withJson($result,404);
                 break;
 
-            default:
-                $result ['reason'] = $mac . " Invalid Request";
-                return $this->response->withJson($result,500);  
+        default:
+            $result ['reason'] = $mac . " Invalid Request";
+            return $this->response->withJson($result,500);  
     }
 
 // update the phone model (it may have changed or it may not be present yet)
@@ -95,56 +95,64 @@ class getController  {
 // fetch the template
 
 //create an empty loopcheck array 
-$loopCheck = array();
-$rawConfig = $endpoint['provision'] . "\n";
+    $loopCheck = array();
+    $rawConfig = $endpoint['provision'] . "\n";
 
 // expand the template stack    
-$this->cleanConfig($endpoint['pkey'],$rawConfig,$retstring,$loopcheck);
+    $this->cleanConfig($endpoint['pkey'],$rawConfig,$retstring,$loopcheck);
 
 // get ready to substitute into it from the values we have
 
 
 // substitute real values into the output   
-if (preg_match('/\$localip/',$retstring)) {
-    $retstring = preg_replace ( '/\$localip/', $endpoint['sip_reg'], $retstring); 
-}
+
+
+
 //$retstring = preg_replace ( '/\$tlsport/', $tlsport, $retstring);
 //$retstring = preg_replace ( '/\$ldapbase/', $ldapbase, $retstring);
 
-$retstring = preg_replace ( '/\$desc/', $endpoint['displayName'], $retstring);
-$retstring = preg_replace ( '/\$password/', $endpoint['sip_pass'], $retstring);
-$retstring = preg_replace ( '/\$ext/', $endpoint['sip_account'], $retstring);
-
+    $retstring = preg_replace ( '/\$displayname/', $endpoint['displayname'], $retstring);
+    $retstring = preg_replace ( '/\$sippass/', $endpoint['sippass'], $retstring);
+    $retstring = preg_replace ( '/\$sipaccount/', $endpoint['sipaccount'], $retstring);
+    $retstring = preg_replace ( '/\$sipurl/', $endpoint['sipurl'], $retstring); 
+    $retstring = preg_replace ( '/\$ldapbase/', $endpoint['ldapbase'], $retstring);
+    $retstring = preg_replace ( '/\$ldapbuser/', $endpoint['ldapuser'], $retstring);
+    $retstring = preg_replace ( '/\$ldappass/', $endpoint['ldappass'], $retstring);
+    $retstring = preg_replace ( '/\$ldaphost/', $endpoint['ldaphost'], $retstring);
+    $retstring = preg_replace ( '/\$ldapbase/', $endpoint['ldapbase'], $retstring);
+    $retstring = preg_replace ( '/\$ep_user/', $endpoint['ep_user'], $retstring);
+    $retstring = preg_replace ( '/\$ep_pass/', $endpoint['ep_pass'], $retstring);
+    $retstring = preg_replace ( '/\$ep_admin_pass/', $endpoint['ep_admin_pass'], $retstring);
 
 // try to update lasteen
-try {
-    if (empty($endpoint['firstseen'])) {
+    try {
+        if (empty($endpoint['firstseen'])) {
             $sql = $this->db->prepare('UPDATE endpoint SET z_firstseen = current_date(), z_lastseen = current_date() WHERE pkey = ?');
     }
     else {
-            $sql = $this->db->prepare('UPDATE endpoint SET z_lastseen = current_date() WHERE pkey = ?');
+        $sql = $this->db->prepare('UPDATE endpoint SET z_lastseen = current_date() WHERE pkey = ?');
     }
     $sql->execute(array($endpoint['pkey']));
-} catch (Exception $e) {
-        $result['reason'] = $e->getMessage();
+    } catch (Exception $e) {
+    $result['reason'] = $e->getMessage();
         $this->logit("Unable to update lastseen/firstseen - DB error " . $result['reason']);
         return $this->response->withJson($result,404);
-}
+    }
     
 // and, if we got this far,  finally ship it out
 
-$this->logit("sending config $mac$fname");
+    $this->logit("sending config $mac$fname");
 
-$retstring = str_replace("\r", "", $retstring);
-$pvarray = explode(PHP_EOL,$retstring);
-$this->logit ("====================provisioning stream================>",4);
-foreach($pvarray as $row) {
-    $this->logit (trim($row),4);
-}
-$this->logit ("====================End of stream======================>",4);
+    $retstring = str_replace("\r", "", $retstring);
+    $pvarray = explode(PHP_EOL,$retstring);
+    $this->logit ("====================provisioning stream================>",4);
+    foreach($pvarray as $row) {
+        $this->logit (trim($row),4);
+    }
+    $this->logit ("====================End of stream======================>",4);
 // send it
-$body = $this->response->getBody();
-return $body->write($retstring);  
+    $body = $this->response->getBody();
+    return $body->write($retstring);  
 
 }
 
