@@ -119,9 +119,9 @@ class getController  {
     $retstring = preg_replace ( '/\$ldapbuser/', $endpoint['ldapuser'], $retstring);
     $retstring = preg_replace ( '/\$ldappass/', $endpoint['ldappass'], $retstring);
     $retstring = preg_replace ( '/\$ldaphost/', $endpoint['ldaphost'], $retstring);
-    $retstring = preg_replace ( '/\$ldapbase/', $endpoint['ldapbase'], $retstring);
-    $retstring = preg_replace ( '/\$ep_user/', $endpoint['ep_user'], $retstring);
+    $retstring = preg_replace ( '/\$ldapbase/', $endpoint['ldapbase'], $retstring);    
     $retstring = preg_replace ( '/\$ep_user_pass/', $endpoint['ep_user_pass'], $retstring);
+    $retstring = preg_replace ( '/\$ep_user/', $endpoint['ep_user'], $retstring);
     $retstring = preg_replace ( '/\$ep_admin_pass/', $endpoint['ep_admin_pass'], $retstring);
 
 // try to update lasteen
