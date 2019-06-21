@@ -31,7 +31,7 @@ class modelHelper  {
         return $short_vendor;
 	}  
 /**
- * getRemoteIP returns the remote IP of the client
+ * getRemoteIP returns the IP of the client
  * @return string IP address
  */
 	public function getRemoteIP() {

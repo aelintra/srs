@@ -1,38 +1,45 @@
 <?php
 
 class putController  {
-
+/**
+ * $columnName White listed columns by table/name
+ * @var array
+ */
     	protected $columnName = array(
-			'customer' => array (
-				'pkey' => true,
-				'dflt_user_pass' => true,
-				'dflt_admin_pass' => true,
-				'dflt_redirect' => true,
-				'dflt_sip_reg' => true,
-				'parent_pkey' => true,
-				'z_updater' => true
-			),
-			'endpoint' => array (
-				'pkey' => true,
-				'customer_pkey' => true,
-				'displayName' => true,
-				'redirecturl' => true,
-				'mode' => true,
-				'sip_account' => true,
-				'sip_pass' => true,
-				'sip_reg' => true,
-				'transport' => true,
-				'vendor' => true,
-				'z_updater' => true
-			),
-			'template' => array (
-				'pkey' => true,
-				'parent_pkey' => true,
-				'provision' => true,
-				'technology' => true,
-				'z_updater' => true
-			)
-		); 	
+            'customer' => array (
+                'pkey' => true,
+                'ep_user' => true,                
+                'ep_user_pass' => true,
+                'ep_admin_pass' => true,
+                'dflt_redirecturl' => true,
+                'dflt_sipurl' => true,
+                'ldapbase' => true,
+                'ldaphost' => true,
+                'ldapuser' => true,
+                'ldappass' => true,
+                'parent' => true,
+                'z_updater' => true
+            ),
+            'endpoint' => array (
+                'pkey' => true,
+                'customer' => true,
+                'displayname' => true,
+                'redirecturl' => true,
+                'mode' => true,
+                'provision' => true,
+                'sipaccount' => true,
+                'sippass' => true,
+                'sipurl' => true,
+                'z_updater' => true
+            ),
+            'template' => array (
+                'pkey' => true, 
+                'parent' => true,
+                'customer' => true,
+                'provision' => true,
+                'z_updater' => true
+            )
+        ); 	
 
     public function __construct($db,$input,$response)
     {

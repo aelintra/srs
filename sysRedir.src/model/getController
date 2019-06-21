@@ -73,11 +73,11 @@ class getController  {
 // update the phone model (it may have changed or it may not be present yet)
     $model = $this->logUA();
     if (!empty($model)) {
-        if ($model != endpoint['devicemodel']) {
+        if ($model != endpoint['device']) {
 // set the model in the extension record    
-           $this->logit ("Device model differs between UA and DB.  UA = $model, DB = " . $endpoint['devicemodel'] );
+           $this->logit ("Device model differs between UA and DB.  UA = $model, DB = " . $endpoint['device'] );
             try {
-                $sql = $db->prepare('UPDATE endpoint SET devicemodel=? WHERE pkey = ?');
+                $sql = $db->prepare('UPDATE endpoint SET device=? WHERE pkey = ?');
                 $sql->execute(array($model,endpoint['pkey']));
             } catch (Exception $e) {
                 $result['reason'] = $e->getMessage();

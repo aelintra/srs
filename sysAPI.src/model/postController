@@ -1,6 +1,9 @@
 <?php
 
 class postController  {
+
+require_once __DIR__ . "/model/helperClass";
+
 /**
  * $columnName White listed columns by table/name
  * @var array
@@ -8,31 +11,35 @@ class postController  {
     	protected $columnName = array(
 			'customer' => array (
 				'pkey' => true,
-				'dflt_user_pass' => true,
-				'dflt_admin_pass' => true,
-				'dflt_redirect' => true,
-				'dflt_sip_reg' => true,
-				'parent_pkey' => true,
+                'ep_user' => true,                
+				'ep_user_pass' => true,
+				'ep_admin_pass' => true,
+				'dflt_redirecturl' => true,
+				'dflt_sipurl' => true,
+                'ldapbase' => true,
+                'ldaphost' => true,
+                'ldapuser' => true,
+                'ldappass' => true,
+				'parent' => true,
 				'z_updater' => true
 			),
 			'endpoint' => array (
 				'pkey' => true,
-				'customer_pkey' => true,
-				'displayName' => true,
+				'customer' => true,
+				'displayname' => true,
 				'redirecturl' => true,
 				'mode' => true,
-				'sip_account' => true,
-				'sip_pass' => true,
-				'sip_reg' => true,
-				'transport' => true,
-				'vendor' => true,
+                'provision' => true,
+				'sipaccount' => true,
+				'sippass' => true,
+				'sipurl' => true,
 				'z_updater' => true
 			),
 			'template' => array (
-				'pkey' => true,
-				'parent_pkey' => true,
+				'pkey' => true, 
+				'parent' => true,
+                'customer' => true,
 				'provision' => true,
-				'technology' => true,
 				'z_updater' => true
 			)
 		); 	
@@ -43,6 +50,7 @@ class postController  {
        $this->db = $db;
        $this->input = $input;
        $this->response = $response;
+       $this->helper = new modelHelper();
 
     }
 
@@ -52,6 +60,46 @@ class postController  {
         	$result ['reason'] = "EMPTY PRIMARY KEY";
             return $this->response->withJson($result,400);      	
     	}
+/*
+    add any table specific requirements here
+ */
+        switch ($table) {
+
+            case "endpoint":
+
+// check a template name has been given
+                if (empty($this->input['template'])) {
+                    $result ['reason'] = "EMPTY template KEY";
+                    return $this->response->withJson($result,400);          
+                }
+
+// get the vendor name from the MAC address
+                $this->input['vendor'] = $this->helper->getVendorFromMac($this->input['pkey']);
+
+// copy the base provisioning directives from the base teemplate
+                try {
+                    $sth = $this->db->prepare("SELECT provision from template WHERE pkey=?");
+                    $sth->execute(array($this->input['template'])); 
+                    $result = $sth->fetchAll();
+                } catch (exception $e) {
+                    return $this->response->withJson($result,403);
+                }
+                if (empty($result)) }
+                    $result ['reason'] = "Template " . input['template'] . ' DOES NOT EXIST ';
+                    return $this->response->withJson($result,404);  
+                }                  
+                $this->input['provision'] = $result['provision'];  
+
+                break;
+
+            case "customer":
+                break;
+
+            case "template":
+                break;
+
+            default:            
+        }        
     	$helper = new modelHelper();
     	$this->input['z_updater'] = $helper->getRemoteIP();
     	$cols = null;
