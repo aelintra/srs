@@ -99,17 +99,13 @@ class getController  {
     $rawConfig = $endpoint['provision'] . "\n";
 
 // expand the template stack    
-    $this->cleanConfig($endpoint['pkey'],$rawConfig,$retstring,$loopcheck);
+    $this->cleanConfig($rawConfig,$retstring,$loopcheck);
 
 // get ready to substitute into it from the values we have
 
 
 // substitute real values into the output   
 
-
-
-//$retstring = preg_replace ( '/\$tlsport/', $tlsport, $retstring);
-//$retstring = preg_replace ( '/\$ldapbase/', $ldapbase, $retstring);
 
     $retstring = preg_replace ( '/\$displayname/', $endpoint['displayname'], $retstring);
     $retstring = preg_replace ( '/\$sippass/', $endpoint['sippass'], $retstring);
@@ -155,8 +151,15 @@ class getController  {
     return $body->write($retstring);  
 
 }
-
-private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) { 
+/**
+ * cleanConfig Recursive function to expand the provisioning stream into a single string
+ * @param  [type] $phonepkey  Current key
+ * @param  [type] $rawConfig  Input data file
+ * @param  [type] &$retstring expanded return string
+ * @param  [type] &$loopCheck loopchecker, a given INCLUDE will only be loaded once
+ * @return NULL
+ */
+private function cleanConfig($rawConfig,&$retstring,&$loopCheck) { 
 
   $inline=False;
   $lines = explode("\n", $rawConfig);
@@ -190,7 +193,7 @@ private function cleanConfig($phonepkey,$rawConfig,&$retstring,&$loopCheck) {
         }
         $loopcheck[$nextPkey] = true;
         $rawConfig = $thisConfig->provision;    
-        $this->cleanConfig($nextPkey,$rawConfig,$retstring,$loopCheck); 
+        $this->cleanConfig($rawConfig,$retstring,$loopCheck); 
         continue;
     }   
     $retstring .= $line . "\n";
