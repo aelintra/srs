@@ -71,12 +71,6 @@ class postController  {
 
             case "endpoint":
 
-// check a template name has been given
-                if (empty($this->input['template'])) {
-                    $result ['reason'] = "EMPTY template KEY";
-                    return $this->response->withJson($result,400);          
-                }
-
 // get the vendor name from the MAC address
                 $this->input['vendor'] = $this->helper->getVendorFromMac($this->input['pkey']);
 
