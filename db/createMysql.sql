@@ -113,14 +113,6 @@ CREATE TABLE IF NOT EXISTS endpoint (
     
     FOREIGN KEY (customer) REFERENCES customer(pkey)
     ON DELETE SET NULL
-    ON UPDATE CASCADE,
-
-    FOREIGN KEY (customtemplate) REFERENCES template(pkey)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
-
-    FOREIGN KEY (device) REFERENCES device(pkey) 
-    ON DELETE SET NULL 
     ON UPDATE CASCADE, 
     
     INDEX idx_endpoint_customer (customer),
