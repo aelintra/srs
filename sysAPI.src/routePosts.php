@@ -5,7 +5,7 @@ require_once __DIR__ . "/model/helperClass";
 
         $app->post('/endpoint', function ($request, $response, $args) {
         	$input = $request->getParsedBody();
-    		if (empty($input['customer_pkey'])) {
+    		if (empty($input['pkey'])) {
         		$result ['reason'] = "NULL customer KEY";
             	return $this->response->withJson($result,400);      	
     		} 
