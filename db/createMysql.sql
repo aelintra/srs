@@ -115,6 +115,6 @@ CREATE TABLE IF NOT EXISTS endpoint (
     ON DELETE SET NULL
     ON UPDATE CASCADE, 
     
-    INDEX idx_endpoint_customer (customer),
-    INDEX idx_endpoint_template (template)    
+    INDEX idx_endpoint_customer (customer)
+      
 );
