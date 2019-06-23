@@ -153,10 +153,9 @@ class getController  {
 }
 /**
  * cleanConfig Recursive function to expand the provisioning stream into a single string
- * @param  [type] $phonepkey  Current key
- * @param  [type] $rawConfig  Input data file
- * @param  [type] &$retstring expanded return string
- * @param  [type] &$loopCheck loopchecker, a given INCLUDE will only be loaded once
+ * @param  [string] $rawConfig  Input data file
+ * @param  [string] &$retstring expanded return string
+ * @param  [array] &$loopCheck loopchecker, a given INCLUDE will only be loaded once
  * @return NULL
  */
 private function cleanConfig($rawConfig,&$retstring,&$loopCheck) { 
