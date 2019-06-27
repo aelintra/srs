@@ -2,14 +2,7 @@
 
 class getController  {
 
-    public function __construct($db,$request,$response)
-    {
-       $this->db = $db;
-       $this->request = $request;
-       $this->response = $response;
-       $this->loglevel = 5;
-
-       protected $mySubs = array(
+    protected $mySubs = array(
 
             'displayname'   => '$displayname',
             'sippass'       => '$sippass',
@@ -24,7 +17,15 @@ class getController  {
             'ep_user_pass'  => '$ep_user_pass',
             'ep_user'       => '$ep_user',
             'ep_admin_pass' => '$ep_admin_pass'                      
-       )
+    )
+
+
+    public function __construct($db,$request,$response) {
+        
+       $this->db = $db;
+       $this->request = $request;
+       $this->response = $response;
+       $this->loglevel = 5;       
     }
 
 
