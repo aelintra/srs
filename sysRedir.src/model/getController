@@ -44,7 +44,7 @@ class getController  {
     } 
     else {  
 // try to harvest a MAC address
-        if (preg_match('/([0-9A-Fa-f]{12})\.?(.*)$/',$macfile,$matches)  ) {
+        if (preg_match('/(^[0-9A-Fa-f]{12})\.?(.*)$/',$macfile,$matches)  ) {
                     $mac = $matches[1];
                     $fname = $matches[2];
                     $this->logit ("Received filename $macfile in router");
@@ -264,6 +264,7 @@ private function logUA() {
 
 private function logHeader() {
 
+    $this->logit( "SSL_CLIENT_S_DN_CN -> " . $_SERVER['SSL_CLIENT_S_DN_CN']);
     foreach (getallheaders() as $name => $value) {
         $this->logit( "HTTP Header -> $name = $value");
     }
