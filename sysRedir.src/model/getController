@@ -60,7 +60,7 @@ class getController  {
 // we only recognise ".cfg" as a good one
         if ($fname != 'cfg') {
             $result = "Unsupported filename $macfile - sending 404 ";
-            $this->logit ($result);
+            $this->logit ($result['reason']);
             return $this->response->withJson($result,404);        
         }  
     }
@@ -75,6 +75,7 @@ class getController  {
     } 
     if (empty($endpoint['mac'])) {
         $result ['reason'] =  "Mac $mac Not Found in DB, giving up";
+        $this->logit($result['reason']);
         return $this->response->withJson($result,404);   
     } 
 // Log the header    
@@ -83,11 +84,11 @@ class getController  {
     switch ($endpoint['mode']) {
         case 0:
             $result ['reason'] = " Database entry for Mac $mac is set inactive, giving up";
+            $this->logit($result['reason']);
             return $this->response->withJson($result,404);
 
         case 1:
             $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"]; 
-
             $this->logit("mode is Redirect $redirURL Sending 301 ");  
             return $this->response->withRedirect($redirURL, 301); 
 
@@ -99,7 +100,7 @@ class getController  {
     }
       
 
-    $this->logit("Synthesizing stream for MAC $mac");   
+    $this->logit("Synthesizing stream for MAC $mac ...");   
 
 // update the phone model (it may have changed or it may not be present yet)
     $model = $this->logUA();
