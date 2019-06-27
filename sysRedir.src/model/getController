@@ -21,7 +21,6 @@ class getController  {
 
 
     public function __construct($db,$request,$response) {
-
        $this->db = $db;
        $this->request = $request;
        $this->response = $response;
@@ -81,15 +80,6 @@ class getController  {
 // Log the header    
     $this->logHeader();
 
-//    Check the SSL var matches the MAC address
-    
-    if (strcasecmp($_SERVER['SSL_CLIENT_S_DN_CN'],$mac)) {
-        $this->logit ("Received MAC => $mac does not match SSL_CLIENT_S_DN_CN => " . $_SERVER['SSL_CLIENT_S_DN_CN']);
-    }  
-    else {
-        $this->logit ("Received MAC => $mac matches SSL_CLIENT_S_DN_CN => " . $_SERVER['SSL_CLIENT_S_DN_CN']);
-    }
-
     switch ($endpoint['mode']) {
         case 0:
             $result ['reason'] = " Database entry for Mac $mac is set inactive, giving up";
@@ -105,7 +95,9 @@ class getController  {
             break;
 
         default:
-            $result ['reason'] = $mac . " Invalid Request";
+            $result ['reason'] = " MAC $mac has an invalid Mode => " . $endpoint['mode'] . " check  database entry ";
+            $this->logit($result['reason']);
+            return $this->response->withJson($result,404);
     }
       
 
@@ -117,18 +109,35 @@ class getController  {
         if ($model != $endpoint['device']) {
 // set the model in the extension record    
             $this->logit ("Device model differs between UA and DB.  UA = $model, DB = " . $endpoint['device'] );
-            try {
-                $sql = $this->db->prepare('UPDATE endpoint SET device=? WHERE pkey = ?');
-                $sql->execute(array($model,$endpoint['pkey']));
-            } catch (Exception $e) {
-                $result['reason'] = $e->getMessage();
-                $this->logit("Unable to update mac file for $mac  - DB error $errorMsg");
-                return $this->response->withJson($result,404);
+            if ($empty($endpoint['device'])) {
+                $this->logit ("DB Device model is empty, adopting UA device");
+                try {
+                    $sql = $this->db->prepare('UPDATE endpoint SET device=? WHERE pkey = ?');
+                    $sql->execute(array($model,$endpoint['pkey']));
+                } catch (Exception $e) {
+                    $result['reason'] = $e->getMessage();
+                    $this->logit("Unable to update mac file for $mac  - DB error $errorMsg");
+                    return $this->response->withJson($result,404);
+                }
             }
         }
     }
     else {
         $this->logit("Unable find model in URI for $mac"); 
+    }
+//    Check the SSL var matches the MAC address or the model, depending upon vendor
+
+    if (strcasecmp($endpoint['vendor'],'panasonic') {
+        $panarray = explode (' ',$_SERVER['SSL_CLIENT_S_DN_CN']);
+        if ( $panarray[0] != $endpoint['device'] ) {
+            $this->logit ("Panasonic received model => $model does not match SSL_CLIENT_S_DN_CN => " . $_SERVER['SSL_CLIENT_S_DN_CN']);
+        }
+    }  
+    else if (strcasecmp($_SERVER['SSL_CLIENT_S_DN_CN'],$mac)) {
+        $this->logit ("Received MAC => $mac does not match SSL_CLIENT_S_DN_CN => " . $_SERVER['SSL_CLIENT_S_DN_CN']);
+    }  
+    else {
+        $this->logit ("Received MAC => $mac matches SSL_CLIENT_S_DN_CN => " . $_SERVER['SSL_CLIENT_S_DN_CN']);
     }
 
 
