@@ -40,7 +40,7 @@ class getController  {
 // see if we have a mac in the GET
     if (isset($_GET['mac'])) {
         $mac = strtolower($_GET['mac']);
-        logit ("Found MAC from query " . $mac);        
+        $this->logit ("Found MAC from query " . $mac);        
     } 
     else {  
 // try to harvest a MAC address
