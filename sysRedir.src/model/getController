@@ -73,7 +73,7 @@ class getController  {
         $result ['reason'] = $e->getMessage();
         return $this->response->withJson($result,500);        
     } 
-    if (empty($endpoint)) {
+    if (empty($endpoint['mac'])) {
         $result ['reason'] =  "Mac $mac Not Found in DB, giving up";
         return $this->response->withJson($result,404);   
     } 
@@ -112,14 +112,15 @@ class getController  {
                 $sql->execute(array($model,$endpoint['pkey']));
             } catch (Exception $e) {
                 $result['reason'] = $e->getMessage();
-                $this->logit("Unable update mac file for $mac  - DB error $errorMsg");
+                $this->logit("Unable to update mac file for $mac  - DB error $errorMsg");
                 return $this->response->withJson($result,404);
             }
         }
     }
-    $this->logit("Unable find model in URI for $mac");      
+    else {
+        $this->logit("Unable find model in URI for $mac"); 
+    }
 
-   
 
 //header('Content-type: text/plain');
 
