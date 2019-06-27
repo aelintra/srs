@@ -140,8 +140,8 @@ class getController  {
     foreach ($this->mySubs as $key => $val) {
 
         if (!empty($endpoint[$key])) {
-            $this->logit("looking for \$" . $val . "in the stream"); 
-            $retstring = preg_replace ( ' / \$' .  $val . ' / ', $endpoint[$key], $retstring); 
+            $this->logit("looking for \$" . $val . " in the stream"); 
+            $retstring = preg_replace ( '/\$' .  $val . '/', $endpoint[$key], $retstring); 
         }
         else {
             $this->logit("endpoint var $key is empty - can't provision it, ignoring ");
