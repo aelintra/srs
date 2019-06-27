@@ -50,7 +50,7 @@ class getController  {
                     $this->logit ("Received filename $macfile in router");
         }
         else {
-                    $result = "Couldn't REGEX MAC $mac - sending 404 ";
+                    $result = "Couldn't REGEX MAC $mac - sending 404";
                     $this->logit ($result);
                     return $this->response->withJson($result,404);
         }
@@ -96,6 +96,7 @@ class getController  {
 
         default:
             $result ['reason'] = $mac . " Invalid Request";
+    }
       
 
     $this->logit("Synthesizing stream for MAC $mac");   
