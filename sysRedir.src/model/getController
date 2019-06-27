@@ -73,7 +73,7 @@ class getController  {
         $result ['reason'] = $e->getMessage();
         return $this->response->withJson($result,500);        
     } 
-    if (empty($endpoint['mac'])) {
+    if (empty($endpoint['pkey'])) {
         $result ['reason'] =  "Mac $mac Not Found in DB, giving up";
         $this->logit($result['reason']);
         return $this->response->withJson($result,404);   
