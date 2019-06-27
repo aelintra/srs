@@ -44,7 +44,7 @@ class getController  {
     } 
     else {  
 // try to harvest a MAC address
-        if (preg_match('/([0-9A-Fa-f]{12})(.*)$/',$macfile,$matches)  ) {
+        if (preg_match('/([0-9A-Fa-f]{12})\.?(.*)$/',$macfile,$matches)  ) {
                     $mac = $matches[1];
                     $fname = $matches[2];
                     $this->logit ("Received filename $macfile in router");
@@ -58,7 +58,7 @@ class getController  {
 //    check file type
     if (!empty($fname)) {
 // we only recognise ".cfg" as a good one
-        if ($fname != '.cfg') {
+        if ($fname != 'cfg') {
             $result = "Unsupported filename $macfile - sending 404 ";
             $this->logit ($result);
             return $this->response->withJson($result,404);        
@@ -271,9 +271,9 @@ private function logHeader() {
 
 private function logIt($someText,$userloglevel=0) {
 
-    if ($userloglevel <= $this->loglevel) {   
+//    if ($userloglevel <= $this->loglevel) {   
         syslog(LOG_WARNING, $_SERVER["REMOTE_ADDR"] . " " . $someText);
-    }
+//    }
 }
 
 }
