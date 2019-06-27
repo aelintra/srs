@@ -47,7 +47,7 @@ class getController  {
         if (preg_match('/([0-9A-Fa-f]{12})(.*)$/',$macfile,$matches)  ) {
                     $mac = $matches[1];
                     $fname = $matches[2];
-                    $this->logit ("Found MAC From Filename " . $macfile);
+                    $this->logit ("Received filename $macfile in router");
         }
         else {
                     $result = "Couldn't REGEX MAC $mac - sending 404 ";
@@ -59,7 +59,7 @@ class getController  {
     if (!empty($fname)) {
 // we only recognise ".cfg" as a good one
         if ($fname != '.cfg') {
-            $result = "Unsupported filename $mac.$fname - sending 404 ";
+            $result = "Unsupported filename $macfile - sending 404 ";
             $this->logit ($result);
             return $this->response->withJson($result,404);        
         }  
@@ -74,7 +74,7 @@ class getController  {
         return $this->response->withJson($result,500);        
     } 
     if (empty($endpoint)) {
-        $result ['reason'] = $mac . " Not Found";
+        $result ['reason'] =  "Mac $mac Not Found in DB, giving up";
         return $this->response->withJson($result,404);   
     } 
 // Log the header    
@@ -82,7 +82,7 @@ class getController  {
 
     switch ($endpoint['mode']) {
         case 0:
-            $result ['reason'] = $mac . " Inactive";
+            $result ['reason'] = " Database entry for Mac $mac is set inactive, giving up";
             return $this->response->withJson($result,404);
 
         case 1:
@@ -92,14 +92,13 @@ class getController  {
             return $this->response->withRedirect($redirURL, 301); 
 
         case 2:
-//          $result ['reason'] = $mac . " Provision not yet implemented";
-//          return $this->response->withJson($result,404);
             break;
 
         default:
             $result ['reason'] = $mac . " Invalid Request";
-            return $this->response->withJson($result,500);  
-    }
+      
+
+    $this->logit("Synthesizing stream for MAC $mac");   
 
 // update the phone model (it may have changed or it may not be present yet)
     $model = $this->logUA();
@@ -140,7 +139,6 @@ class getController  {
     foreach ($this->mySubs as $key => $val) {
 
         if (!empty($endpoint[$key])) {
-            $this->logit("looking for \$" . $val . " in the stream"); 
             $retstring = preg_replace ( '/\$' .  $val . '/', $endpoint[$key], $retstring); 
         }
         else {
