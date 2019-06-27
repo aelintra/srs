@@ -4,19 +4,19 @@ class getController  {
 
     protected $mySubs = array(
 
-            'displayname'   => '$displayname',
-            'sippass'       => '$sippass',
-            'sipaccount'    => '$sipaccount',
-            'sipurl'        => '$sipurl',
-            'provurl'       => '$provurl',
-            'ldapbase'      => '$ldapbase',
-            'ldapbuser'     => '$ldapbuser',
-            'ldappass'      => '$ldappass',
-            'ldaphost'      => '$ldaphost',
-            'ldapbase'      => '$ldapbase',
-            'ep_user_pass'  => '$ep_user_pass',
-            'ep_user'       => '$ep_user',
-            'ep_admin_pass' => '$ep_admin_pass'                      
+            'displayname'   => '\$displayname',
+            'sippass'       => '\$sippass',
+            'sipaccount'    => '\$sipaccount',
+            'sipurl'        => '\$sipurl',
+            'provurl'       => '\$provurl',
+            'ldapbase'      => '\$ldapbase',
+            'ldapbuser'     => '\$ldapbuser',
+            'ldappass'      => '\$ldappass',
+            'ldaphost'      => '\$ldaphost',
+            'ldapbase'      => '\$ldapbase',
+            'ep_user_pass'  => '\$ep_user_pass',
+            'ep_user'       => '\$ep_user',
+            'ep_admin_pass' => '\$ep_admin_pass'                      
     );
 
 
