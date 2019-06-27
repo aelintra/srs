@@ -51,7 +51,7 @@ class getController  {
     } 
 // Log the header    
     $this->logHeader();
-    
+
     switch ($endpoint['mode']) {
         case 0:
             $result ['reason'] = $mac . " Inactive";
@@ -237,7 +237,7 @@ private function logUA() {
 private function logHeader() {
 
     foreach (getallheaders() as $name => $value) {
-        $this->logit( "HTTP Header -> $name = $value";
+        $this->logit( "HTTP Header -> $name = $value");
     }
 
 }  
