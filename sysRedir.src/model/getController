@@ -50,7 +50,8 @@ class getController  {
                     $this->logit ("Found MAC From Filename " . $macfile);
         }
         else {
-                    $this->logit ("Couldn't REGEX MAC - sending 404 " . $mac);
+                    $result = "Couldn't REGEX MAC $mac - sending 404 "
+                    $this->logit ($result);
                     return $this->response->withJson($result,404);
         }
     }
@@ -58,7 +59,8 @@ class getController  {
     if (!empty($fname)) {
 // we only recognise ".cfg" as a good one
         if ($fname != '.cfg') {
-            $this->logit ("Unsupported filename $mac.$fname - sending 404 ");
+            $result = "Unsupported filename $mac.$fname - sending 404 ";
+            $this->logit ($result);
             return $this->response->withJson($result,404);        
         }  
     }
@@ -152,7 +154,12 @@ class getController  {
 */
     foreach ($this->mySubs as $key => $val) {
 
-        $retstring = preg_replace ( " /$val/ ", $endpoint[$key], $retstring); 
+        if (!empty($endpoint[$key])) {
+            $retstring = preg_replace ( " / $val / ", $endpoint[$key], $retstring); 
+        }
+        else {
+            $this->logit("endpoint var $key is empty - can't provision it, ignoring ");
+        }
     }
 
 // try to update lasteen
