@@ -22,14 +22,14 @@ class getController  {
 // see if we have a mac in the GET
     if (isset($_GET['mac'])) {
         $mac = strtolower($_GET['mac']);
-        logit ("Found MAC " . $mac);        
+        logit ("Found MAC from query " . $mac);        
     } 
     else {  
 // try to harvest a MAC address
         if (preg_match('/([0-9A-Fa-f]{12})(.*)$/',$macfile,$matches)  ) {
                     $mac = $matches[1];
                     $fname = $matches[2];
-                    $this->logit ("Found MAC " . $mac);
+                    $this->logit ("Found MAC From Filename " . $macfile);
         }
         else {
                     $this->logit ("Couldn't REGEX MAC - sending 404 " . $mac);
@@ -38,8 +38,8 @@ class getController  {
     }
 //    check file type
     if (!empyty($fname)) {
-// we only recognise "cfg" as a good one
-        if ($fname != 'cfg') {
+// we only recognise ".cfg" as a good one
+        if ($fname != '.cfg') {
             $this->logit ("Unsupported filename $mac.$fname - sending 404 ");
             return $this->response->withJson($result,404);        
         }  
