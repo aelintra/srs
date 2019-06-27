@@ -78,9 +78,9 @@ class getController  {
     if (!empty($model)) {
         if ($model != endpoint['device']) {
 // set the model in the extension record    
-           $this->logit ("Device model differs between UA and DB.  UA = $model, DB = " . $endpoint['device'] );
+            $this->logit ("Device model differs between UA and DB.  UA = $model, DB = " . $endpoint['device'] );
             try {
-                $sql = $db->prepare('UPDATE endpoint SET device=? WHERE pkey = ?');
+                $sql = $this->db->prepare('UPDATE endpoint SET device=? WHERE pkey = ?');
                 $sql->execute(array($model,endpoint['pkey']));
             } catch (Exception $e) {
                 $result['reason'] = $e->getMessage();
