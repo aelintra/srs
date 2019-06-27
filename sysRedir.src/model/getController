@@ -4,19 +4,19 @@ class getController  {
 
     protected $mySubs = array(
 
-            'displayname'   => '\$displayname',
-            'sippass'       => '\$sippass',
-            'sipaccount'    => '\$sipaccount',
-            'sipurl'        => '\$sipurl',
-            'provurl'       => '\$provurl',
-            'ldapbase'      => '\$ldapbase',
-            'ldapbuser'     => '\$ldapbuser',
-            'ldappass'      => '\$ldappass',
-            'ldaphost'      => '\$ldaphost',
-            'ldapbase'      => '\$ldapbase',
-            'ep_user_pass'  => '\$ep_user_pass',
-            'ep_user'       => '\$ep_user',
-            'ep_admin_pass' => '\$ep_admin_pass'                      
+            'displayname'   => 'displayname',
+            'sippass'       => 'sippass',
+            'sipaccount'    => 'sipaccount',
+            'sipurl'        => 'sipurl',
+            'provurl'       => 'provurl',
+            'ldapbase'      => 'ldapbase',
+            'ldapbuser'     => 'ldapbuser',
+            'ldappass'      => 'ldappass',
+            'ldaphost'      => 'ldaphost',
+            'ldapbase'      => 'ldapbase',
+            'ep_user_pass'  => 'ep_user_pass',
+            'ep_user'       => 'ep_user',
+            'ep_admin_pass' => 'ep_admin_pass'                      
     );
 
 
@@ -137,29 +137,15 @@ class getController  {
 
 // substitute real values into the output   
 
-/*
-    $retstring = preg_replace ( '/\$displayname/', $endpoint['displayname'], $retstring);
-    $retstring = preg_replace ( '/\$sippass/', $endpoint['sippass'], $retstring);
-    $retstring = preg_replace ( '/\$sipaccount/', $endpoint['sipaccount'], $retstring);
-    $retstring = preg_replace ( '/\$sipurl/', $endpoint['sipurl'], $retstring); 
-    $retstring = preg_replace ( '/\$provurl/', $endpoint['provurl'], $retstring); 
-    $retstring = preg_replace ( '/\$ldapbase/', $endpoint['ldapbase'], $retstring);
-    $retstring = preg_replace ( '/\$ldapbuser/', $endpoint['ldapuser'], $retstring);
-    $retstring = preg_replace ( '/\$ldappass/', $endpoint['ldappass'], $retstring);
-    $retstring = preg_replace ( '/\$ldaphost/', $endpoint['ldaphost'], $retstring);
-    $retstring = preg_replace ( '/\$ldapbase/', $endpoint['ldapbase'], $retstring);    
-    $retstring = preg_replace ( '/\$ep_user_pass/', $endpoint['ep_user_pass'], $retstring);
-    $retstring = preg_replace ( '/\$ep_user/', $endpoint['ep_user'], $retstring);
-    $retstring = preg_replace ( '/\$ep_admin_pass/', $endpoint['ep_admin_pass'], $retstring);
-*/
     foreach ($this->mySubs as $key => $val) {
 
         if (!empty($endpoint[$key])) {
-            $retstring = preg_replace ( " / $val / ", $endpoint[$key], $retstring); 
+            $retstring = preg_replace ( ' / \$' .  $val . ' / ', $endpoint[$key], $retstring); 
         }
         else {
             $this->logit("endpoint var $key is empty - can't provision it, ignoring ");
         }
+
     }
 
 // try to update lasteen
