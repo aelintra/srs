@@ -49,7 +49,9 @@ class getController  {
         $result ['reason'] = $mac . " Not Found";
         return $this->response->withJson($result,404);   
     } 
-
+// Log the header    
+    $this->logHeader();
+    
     switch ($endpoint['mode']) {
         case 0:
             $result ['reason'] = $mac . " Inactive";
@@ -57,6 +59,7 @@ class getController  {
 
         case 1:
             $redirURL = $endpoint['redirecturl'] . $_SERVER["REQUEST_URI"]; 
+
             $this->logit("mode is Redirect $redirURL Sending 301 ");  
             return $this->response->withRedirect($redirURL, 301); 
 
@@ -229,7 +232,15 @@ private function logUA() {
     }
     $this->logit ("UA not found or unknown $useragent" );
 //  send404();
-}   
+} 
+
+private function logHeader() {
+
+    foreach (getallheaders() as $name => $value) {
+        $this->logit( "HTTP Header -> $name = $value";
+    }
+
+}  
 
 private function logIt($someText,$userloglevel=0) {
 
