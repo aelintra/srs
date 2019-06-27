@@ -50,8 +50,8 @@ class getController  {
                     $this->logit ("Received filename $macfile in router");
         }
         else {
-                    $result = "Couldn't REGEX MAC $mac - sending 404";
-                    $this->logit ($result);
+                    $result['reason'] = "Couldn't REGEX MAC $mac - sending 404";
+                    $this->logit ($result['reason']);
                     return $this->response->withJson($result,404);
         }
     }
@@ -59,7 +59,7 @@ class getController  {
     if (!empty($fname)) {
 // we only recognise ".cfg" as a good one
         if ($fname != 'cfg') {
-            $result = "Unsupported filename $macfile - sending 404 ";
+            $result['reason'] = "Unsupported filename $macfile - sending 404 ";
             $this->logit ($result['reason']);
             return $this->response->withJson($result,404);        
         }  
