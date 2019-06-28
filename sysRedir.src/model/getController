@@ -81,8 +81,8 @@ class getController  {
         $this->logit($result['reason']);
         return $this->response->withJson($result,404);   
     } 
-// Log the header    
-    $this->logHeader();
+// DEBUG Log the header    
+//    $this->logHeader();
 
     switch ($endpoint['mode']) {
         case 0:
@@ -294,7 +294,7 @@ private function logUA() {
 } 
 
 /**
- * logHeader log HTTP headers and SSL_CLIENT_S_DN_CN
+ * logHeader log HTTP headers and SSL_CLIENT_S_DN_CN.  Only used for debugging
  * @return NULL 
  */
 private function logHeader() {
