@@ -164,12 +164,12 @@ class getController  {
 
     foreach ($this->mySubs as $key => $val) {
 
-        if (!empty($endpoint[$key])) {
+//        if (!empty($endpoint[$key])) {
             $retstring = preg_replace ( '/\$' .  $val . '/', $endpoint[$key], $retstring); 
-        }
-        else {
-            $this->logit("endpoint var $key is empty - can't provision it, ignoring ");
-        }
+//        }
+//        else {
+//            $this->logit("endpoint var $key is empty - can't provision it, ignoring ");
+//        }
 
     }
 
