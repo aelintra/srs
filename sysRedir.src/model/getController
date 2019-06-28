@@ -130,10 +130,12 @@ class getController  {
         $this->logit("Unable find model in URI for $mac"); 
     }
 //    Check the SSL var matches the MAC address or the model, depending upon vendor
+//    Panasonic appends an 'X' to the model name in the UA but not in the SSL_CLIENT_S_DN_CN
+//    so we only check the first 9 characters
 
     if (strcasecmp($endpoint['vendor'],'panasonic') == 0) {
         $panarray = explode ( ' ',$_SERVER['SSL_CLIENT_S_DN_CN'] );
-        if ( $panarray[0] != $endpoint['device'] ) {
+        if ( $panarray[0] != substr($endpoint['device'],0,9) {
             $this->logit ("Panasonic received model => $model does not match SSL_CLIENT_S_DN_CN => " . $_SERVER['SSL_CLIENT_S_DN_CN']);
         }
     }  
