@@ -2,6 +2,10 @@
 
 class getController  {
 
+/**
+ * Array of template substitutional variables
+ * @var array
+ */
     protected $mySubs = array(
 
             'displayname'   => 'displayname',
@@ -171,10 +175,10 @@ class getController  {
 // try to update lasteen
     try {
         if (empty($endpoint['firstseen'])) {
-            $sql = $this->db->prepare('UPDATE endpoint SET z_firstseen = current_date(), z_lastseen = current_date() WHERE pkey = ?');
+            $sql = $this->db->prepare('UPDATE endpoint SET z_firstseen = NOW(), z_lastseen = NOW() WHERE pkey = ?');
         }
         else {
-            $sql = $this->db->prepare('UPDATE endpoint SET z_lastseen = current_date() WHERE pkey = ?');
+            $sql = $this->db->prepare('UPDATE endpoint SET z_lastseen = NOW() WHERE pkey = ?');
         }
         $sql->execute(array($endpoint['pkey']));
     } catch (Exception $e) {    
@@ -248,6 +252,10 @@ private function cleanConfig($rawConfig,&$retstring,&$loopCheck) {
   }
 }
 
+/**
+ *  attempt to find the device model in the UA
+ *  * @return [string] model
+ */
 private function logUA() {
 
     $manufacturer_regex = Array(
@@ -280,6 +288,10 @@ private function logUA() {
 //  send404();
 } 
 
+/**
+ * logHeader log HTTP headers and SSL_CLIENT_S_DN_CN
+ * @return NULL 
+ */
 private function logHeader() {
 
     $this->logit( "SSL_CLIENT_S_DN_CN -> " . $_SERVER['SSL_CLIENT_S_DN_CN']);
@@ -289,11 +301,17 @@ private function logHeader() {
 
 }  
 
+/**
+ * Log a string to syslog
+ * @param  [string]  $someText   string to be logged
+ * @param  integer $userloglevel logLevel
+ * @return  NULL
+ */
 private function logIt($someText,$userloglevel=0) {
 
-//    if ($userloglevel <= $this->loglevel) {   
+    if ($userloglevel <= $this->loglevel) {   
         syslog(LOG_WARNING, $_SERVER["REMOTE_ADDR"] . " " . $someText);
-//    }
+    }
 }
 
 }
