@@ -14,7 +14,7 @@ class getController  {
             'sipurl'        => 'sipurl',
             'provurl'       => 'provurl',
             'ldapbase'      => 'ldapbase',
-            'ldapbuser'     => 'ldapbuser',
+            'ldapuser'      => 'ldapuser',
             'ldappass'      => 'ldappass',
             'ldaphost'      => 'ldaphost',
             'ldapbase'      => 'ldapbase',
@@ -190,7 +190,7 @@ class getController  {
     
 // and, if we got this far,  finally ship it out
 
-    $this->logit("sending config $mac$fname");
+    $this->logit("sending config $mac");
 
     $retstring = str_replace("\r", "", $retstring);
     $pvarray = explode(PHP_EOL,$retstring);
