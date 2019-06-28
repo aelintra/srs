@@ -112,7 +112,7 @@ class getController  {
         if ($model != $endpoint['device']) {
 // set the model in the extension record    
             $this->logit ("Device model differs between UA and DB.  UA = $model, DB = " . $endpoint['device'] );
-            if ($empty($endpoint['device'])) {
+            if (empty($endpoint['device'])) {
                 $this->logit ("DB Device model is empty, adopting UA device");
                 try {
                     $sql = $this->db->prepare('UPDATE endpoint SET device=? WHERE pkey = ?');
