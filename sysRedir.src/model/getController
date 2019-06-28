@@ -122,6 +122,7 @@ class getController  {
                     $this->logit("Unable to update mac file for $mac  - DB error $errorMsg");
                     return $this->response->withJson($result,404);
                 }
+                $endpoint['device'] = $model;
             }
         }
     }
