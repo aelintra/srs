@@ -104,8 +104,7 @@ class getController  {
             return $this->response->withJson($result,404);
     }
       
-
-    $this->logit("Synthesizing stream for MAC $mac ...");   
+   
 
 // update the phone model (it may have changed or it may not be present yet)
     $model = $this->logUA();
@@ -149,10 +148,6 @@ class getController  {
         $this->logit ("Received MAC => $mac matches SSL_CLIENT_S_DN_CN => " . $_SERVER['SSL_CLIENT_S_DN_CN']);
     }
 
-
-//header('Content-type: text/plain');
-
-// fetch the template
 
 //create an empty loopcheck array 
     $loopCheck = array();
