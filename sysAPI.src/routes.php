@@ -28,7 +28,7 @@ return function (App $app) {
         );
 
     	// Sample log message
-    	$this->logger->info("Slim-Skeleton '/' route");
+//   	$this->logger->info("Slim-Skeleton '/' route");
   
     	// Render index view
     	return $this->response->withJson($lexicon,NULL,JSON_UNESCAPED_SLASHES);
